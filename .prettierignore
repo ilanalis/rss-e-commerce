@@ -1,0 +1,9 @@
+node_modules/
+dist/
+public/
+.eslintrc.cjs
+vite.config.ts
+*.json
+*.md
+index.html
+src/vite-env.d.ts
