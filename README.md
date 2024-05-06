@@ -46,7 +46,7 @@ npm run build
 4. Linting code
 
 ```
-npm run eslint
+npm run lint
 ```
 
 5. Run tests
@@ -70,5 +70,5 @@ npm run prepare
 8. Formating code 
 
 ```
-npm run prettier
+npm run format
 ```
