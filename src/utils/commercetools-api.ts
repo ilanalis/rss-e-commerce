@@ -1,4 +1,4 @@
-import { ctpClient } from './BuildClient';
+import { ctpClient } from './build-client';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
