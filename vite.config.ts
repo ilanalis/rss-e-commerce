@@ -10,6 +10,10 @@ export default defineConfig({
     nodePolyfills(),
     stylelint({
       fix: true,
+      cache: false,
+      config: {
+        extends: ["stylelint-config-css-modules"],
+      },
     }),
   ],
 });
