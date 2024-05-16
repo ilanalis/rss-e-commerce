@@ -65,3 +65,7 @@ export function register(apiRoot: ByProjectKeyRequestBuilder, customerDraft: MyC
       console.error('Error while registering user:', error);
     });
 }
+
+export function logout(): ByProjectKeyRequestBuilder {
+  return createAnonymousApiBuilder();
+}
