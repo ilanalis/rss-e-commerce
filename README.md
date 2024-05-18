@@ -41,39 +41,44 @@ npm run dev
 ```
 
 #### Another scripts
-
-3. Build for production
+- Build for production
 
 ```
 npm run build
 ```
-
-4. Linting code
+- Linting code
 
 ```
 npm run lint
 ```
+- Fix code by eslint
 
-5. Run tests
+```
+npm run lint:fix
+```
+- Run tests
 
 ```
 npm run test
 ```
-
-6. Preview of finished project
+- Preview finished project
 
 ```
 npm run preview
 ```
-
-7. Run husky
+- Run husky
 
 ```
 npm run prepare
 ```
-
-8. Formating code 
+- Check code format with prettier
 
 ```
 npm run format
+```
+
+- Change code format with prettier  
+
+```
+npm run format:refactor
 ```

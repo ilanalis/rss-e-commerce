@@ -23,6 +23,7 @@
     /* Paths to resolve aliases */
     "paths": {
       "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
       "@utils/*": ["./src/utils/*"],
     }
   },

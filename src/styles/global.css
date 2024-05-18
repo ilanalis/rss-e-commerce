@@ -1,3 +1,23 @@
-/* Reset Styles */
+* {
+  box-sizing: border-box;
+}
 
-/* Include a CSS reset or normalize.css */
+body {
+  font-family: Montserrat, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: var(--desktop-content-width);
+}
