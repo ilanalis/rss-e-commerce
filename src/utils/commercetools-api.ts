@@ -1,5 +1,10 @@
 import { Client } from '@commercetools/sdk-client-v2';
-import { createAnonymousSession, createAuthorizedSession } from './build-client';
+import {
+  createAnonymousSession,
+  createAuthorizedSession,
+  MyTokenCache,
+  refreshAuthorizedSession,
+} from './build-client';
 import {
   ByProjectKeyRequestBuilder,
   createApiBuilderFromCtpClient,
@@ -23,12 +28,21 @@ function createAuthorizedApiBuilder(
 ): ByProjectKeyRequestBuilder {
   return createApiRoot(createAuthorizedSession(username, password));
 }
+function createRefreshedAuthorizedApiBuilder(refreshToken: string): ByProjectKeyRequestBuilder {
+  return createApiRoot(refreshAuthorizedSession(refreshToken));
+}
+
+type AuthenticationResult = {
+  success: boolean;
+  apiBuilder?: ByProjectKeyRequestBuilder;
+  errorMessage?: string | undefined;
+};
 
 export function login(
   apiRoot: ByProjectKeyRequestBuilder,
   email: string,
   password: string,
-): Promise<ByProjectKeyRequestBuilder> {
+): Promise<AuthenticationResult> {
   return apiRoot
     .me()
     .login()
@@ -40,15 +54,20 @@ export function login(
       },
     })
     .execute()
-    .catch((error) => {
-      console.error('Error during API request:', error);
-    })
     .then(() => {
-      return createAuthorizedApiBuilder(email, password);
+      const apiBuilder = createAuthorizedApiBuilder(email, password);
+      apiBuilder.get().execute();
+      return { success: true, apiBuilder: apiBuilder };
+    })
+    .catch((error) => {
+      return { success: false, errorMessage: error.message };
     });
 }
 
-export function register(apiRoot: ByProjectKeyRequestBuilder, customerDraft: MyCustomerDraft) {
+export function register(
+  apiRoot: ByProjectKeyRequestBuilder,
+  customerDraft: MyCustomerDraft,
+): Promise<AuthenticationResult> {
   return apiRoot
     .me()
     .signup()
@@ -56,16 +75,33 @@ export function register(apiRoot: ByProjectKeyRequestBuilder, customerDraft: MyC
     .execute()
     .then((response) => {
       if (response.statusCode === 201) {
-        return createAuthorizedApiBuilder(customerDraft.email, customerDraft.password);
+        localStorage.removeItem('userDDS');
+        const apiBuilder = createAuthorizedApiBuilder(customerDraft.email, customerDraft.password);
+        apiBuilder.get().execute();
+        return { success: true, apiBuilder: apiBuilder };
       } else {
-        console.error('Error while registering user:', response);
+        return { success: false, errorMessage: 'Error while registering user' };
       }
     })
     .catch((error) => {
-      console.error('Error while registering user:', error);
+      return { success: false, errorMessage: error.message };
     });
 }
 
-export function logout(): ByProjectKeyRequestBuilder {
-  return createAnonymousApiBuilder();
+export function refreshUser(): AuthenticationResult {
+  const tokenCache = new MyTokenCache();
+  const tokenObj = tokenCache.get();
+  if (tokenObj.refreshToken) {
+    return {
+      success: true,
+      apiBuilder: createRefreshedAuthorizedApiBuilder(tokenObj.refreshToken),
+    };
+  } else {
+    throw new Error('No token cache found in localStorage');
+  }
+}
+
+export function logout(): AuthenticationResult {
+  localStorage.removeItem('userDDS');
+  return { success: true, apiBuilder: createAnonymousApiBuilder() };
 }

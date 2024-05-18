@@ -2,11 +2,11 @@ import {
   Client,
   ClientBuilder,
   PasswordAuthMiddlewareOptions,
+  RefreshAuthMiddlewareOptions,
   TokenCache,
+  TokenStore,
   type HttpMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
-
-const scopes = import.meta.env.VITE_SCOPES.split(' ');
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
   host: import.meta.env.VITE_API_URL,
   fetch,
@@ -28,25 +28,53 @@ type AuthMiddlewareOptions = {
   scopes?: Array<string>;
   oauthUri?: string;
   fetch?: typeof fetch;
+  refreshToken?: string;
   tokenCache?: TokenCache;
 };
-function createAuthOptions(username?: string, password?: string): AuthMiddlewareOptions {
+
+export class MyTokenCache implements TokenCache {
+  set(cache: TokenStore): void {
+    localStorage.setItem('userDDS', JSON.stringify(cache));
+  }
+  get(): TokenStore {
+    const userCacheString = localStorage.getItem('userDDS') as string;
+    return JSON.parse(userCacheString);
+  }
+}
+
+function getEnvVar(key: string): string {
+  const value = import.meta.env[key];
+  if (!value) {
+    throw new Error(`Environment variable ${key} is not defined`);
+  }
+  return value;
+}
+type AuthOptionsConfig = {
+  username?: string;
+  password?: string;
+  refreshToken?: string;
+};
+
+function createAuthOptions(config: AuthOptionsConfig = {}): AuthMiddlewareOptions {
   const options: AuthMiddlewareOptions = {
-    host: import.meta.env.VITE_AUTH_URL,
-    projectKey: import.meta.env.VITE_PROJECT_KEY,
+    host: getEnvVar('VITE_AUTH_URL'),
+    projectKey: getEnvVar('VITE_PROJECT_KEY'),
     credentials: {
-      clientId: import.meta.env.VITE_CLIENT_ID,
-      clientSecret: import.meta.env.VITE_CLIENT_SECRET,
+      clientId: getEnvVar('VITE_CLIENT_ID'),
+      clientSecret: getEnvVar('VITE_CLIENT_SECRET'),
     },
-    scopes,
+    scopes: getEnvVar('VITE_SCOPES')?.split(','),
     fetch,
   };
-  if (username && password) {
+  if (config.username && config.password) {
+    options.tokenCache = new MyTokenCache();
     options.credentials.user = {
-      username,
-      password,
+      username: config.username,
+      password: config.password,
       activeCartSignInMode: 'MergeWithExistingCustomerCart',
     };
+  } else if (config.refreshToken) {
+    options.refreshToken = config.refreshToken;
   }
   return options;
 }
@@ -55,10 +83,17 @@ function createSession(options: AuthMiddlewareOptions): Client {
   const clientBuilder = new ClientBuilder()
     .withProjectKey(options.projectKey)
     .withHttpMiddleware(httpMiddlewareOptions);
-  if (options.credentials.user) {
-    return clientBuilder.withPasswordFlow(options as PasswordAuthMiddlewareOptions).build();
-  } else {
-    return clientBuilder.withAnonymousSessionFlow(options).build();
+  try {
+    if (options.credentials.user) {
+      return clientBuilder.withPasswordFlow(options as PasswordAuthMiddlewareOptions).build();
+    } else if (options.refreshToken) {
+      return clientBuilder.withRefreshTokenFlow(options as RefreshAuthMiddlewareOptions).build();
+    } else {
+      return clientBuilder.withAnonymousSessionFlow(options).build();
+    }
+  } catch (error) {
+    console.error('Error creating session:', error);
+    throw error;
   }
 }
 
@@ -68,6 +103,11 @@ export function createAnonymousSession(): Client {
 }
 
 export function createAuthorizedSession(username: string, password: string): Client {
-  const options = createAuthOptions(username, password);
+  const options = createAuthOptions({ username, password });
+  return createSession(options);
+}
+
+export function refreshAuthorizedSession(refreshToken: string) {
+  const options = createAuthOptions({ refreshToken });
   return createSession(options);
 }
