@@ -7,6 +7,7 @@ import {
   TokenStore,
   type HttpMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
+
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
   host: import.meta.env.VITE_API_URL,
   fetch,
@@ -36,19 +37,22 @@ export class MyTokenCache implements TokenCache {
   set(cache: TokenStore): void {
     localStorage.setItem('userDDS', JSON.stringify(cache));
   }
+
   get(): TokenStore {
     const userCacheString = localStorage.getItem('userDDS') as string;
     return JSON.parse(userCacheString);
   }
 }
 
-function getEnvVar(key: string): string {
+export function getEnvVar(key: string): string {
   const value = import.meta.env[key];
   if (!value) {
     throw new Error(`Environment variable ${key} is not defined`);
   }
+
   return value;
 }
+
 type AuthOptionsConfig = {
   username?: string;
   password?: string;
@@ -73,9 +77,12 @@ function createAuthOptions(config: AuthOptionsConfig = {}): AuthMiddlewareOption
       password: config.password,
       activeCartSignInMode: 'MergeWithExistingCustomerCart',
     };
-  } else if (config.refreshToken) {
+  }
+
+  if (config.refreshToken) {
     options.refreshToken = config.refreshToken;
   }
+
   return options;
 }
 
@@ -83,18 +90,15 @@ function createSession(options: AuthMiddlewareOptions): Client {
   const clientBuilder = new ClientBuilder()
     .withProjectKey(options.projectKey)
     .withHttpMiddleware(httpMiddlewareOptions);
-  try {
-    if (options.credentials.user) {
-      return clientBuilder.withPasswordFlow(options as PasswordAuthMiddlewareOptions).build();
-    } else if (options.refreshToken) {
-      return clientBuilder.withRefreshTokenFlow(options as RefreshAuthMiddlewareOptions).build();
-    } else {
-      return clientBuilder.withAnonymousSessionFlow(options).build();
-    }
-  } catch (error) {
-    console.error('Error creating session:', error);
-    throw error;
+  if (options.credentials.user) {
+    return clientBuilder.withPasswordFlow(options as PasswordAuthMiddlewareOptions).build();
   }
+
+  if (options.refreshToken) {
+    return clientBuilder.withRefreshTokenFlow(options as RefreshAuthMiddlewareOptions).build();
+  }
+
+  return clientBuilder.withAnonymousSessionFlow(options).build();
 }
 
 export function createAnonymousSession(): Client {

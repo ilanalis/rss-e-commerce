@@ -2,6 +2,7 @@ import { Client } from '@commercetools/sdk-client-v2';
 import {
   createAnonymousSession,
   createAuthorizedSession,
+  getEnvVar,
   MyTokenCache,
   refreshAuthorizedSession,
 } from './build-client';
@@ -13,7 +14,7 @@ import {
 
 function createApiRoot(session: Client): ByProjectKeyRequestBuilder {
   const apiRoot = createApiBuilderFromCtpClient(session).withProjectKey({
-    projectKey: import.meta.env.VITE_PROJECT_KEY,
+    projectKey: getEnvVar('VITE_PROJECT_KEY'),
   });
   return apiRoot;
 }
@@ -28,6 +29,7 @@ function createAuthorizedApiBuilder(
 ): ByProjectKeyRequestBuilder {
   return createApiRoot(createAuthorizedSession(username, password));
 }
+
 function createRefreshedAuthorizedApiBuilder(refreshToken: string): ByProjectKeyRequestBuilder {
   return createApiRoot(refreshAuthorizedSession(refreshToken));
 }
@@ -79,9 +81,9 @@ export function register(
         const apiBuilder = createAuthorizedApiBuilder(customerDraft.email, customerDraft.password);
         apiBuilder.get().execute();
         return { success: true, apiBuilder: apiBuilder };
-      } else {
-        return { success: false, errorMessage: 'Error while registering user' };
       }
+
+      return { success: false, errorMessage: 'Error while registering user' };
     })
     .catch((error) => {
       return { success: false, errorMessage: error.message };
@@ -96,12 +98,12 @@ export function refreshUser(): AuthenticationResult {
       success: true,
       apiBuilder: createRefreshedAuthorizedApiBuilder(tokenObj.refreshToken),
     };
-  } else {
-    throw new Error('No token cache found in localStorage');
   }
+  throw new Error('No token cache found in localStorage');
 }
 
 export function logout(): AuthenticationResult {
   localStorage.removeItem('userDDS');
+
   return { success: true, apiBuilder: createAnonymousApiBuilder() };
 }
