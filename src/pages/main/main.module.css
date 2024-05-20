@@ -1,0 +1,53 @@
+.navItem {
+  margin-top: 2rem;
+  border: 1px solid black;
+}
+
+.link {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem;
+}
+
+.icon {
+  display: block;
+  mask-size: cover;
+  background-color: var(--dark-text);
+}
+
+.coursesIcon {
+  mask-image: url('../../assets/courses.svg');
+  width: 20px;
+  height: 17px;
+}
+
+.basketIcon {
+  mask-image: url('../../assets/basket.svg');
+  width: 23px;
+  height: 21px;
+}
+
+.profileIcon {
+  mask-image: url('../../assets/profile.svg');
+  width: 18px;
+  height: 19px;
+}
+
+.logoutIcon {
+  mask-image: url('../../assets/logout.svg');
+  width: 16px;
+  height: 20px;
+}
+
+.loginIcon {
+  mask-image: url('../../assets/login.svg');
+  width: 19px;
+  height: 20px;
+}
+
+.signupIcon {
+  mask-image: url('../../assets/signup.svg');
+  width: 20px;
+  height: 22px;
+}
