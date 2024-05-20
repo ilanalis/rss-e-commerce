@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './logo.module.css';
 import cn from 'classnames';
 
@@ -7,10 +8,10 @@ type LogoProps = {
 
 function Logo({ theme }: LogoProps) {
   return (
-    <a className={cn(styles.logo, styles[theme])} href="/">
+    <Link className={cn(styles.logo, styles[theme])} to="/">
       <i className={styles.logoIcon}></i>
       <p className={styles.title}>SkillSpot</p>
-    </a>
+    </Link>
   );
 }
 

@@ -130,7 +130,7 @@
 }
 
 .signupIcon {
-  mask-image: url('../../assets/login.svg');
+  mask-image: url('../../assets/signup.svg');
   width: 20px;
   height: 22px;
 }
