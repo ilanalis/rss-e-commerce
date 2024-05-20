@@ -5,6 +5,7 @@ import Login from './pages/login';
 import SignUp from './pages/sign-up';
 import CheckAuth from './components/checkAuth';
 import UserContextProvider from './contexts/userContext';
+import NotFound from './pages/not-found';
 
 export const router = createBrowserRouter([
   {
@@ -35,10 +36,10 @@ export const router = createBrowserRouter([
       //   path: '/profile',
       //   element: <Profile />,
       // },
-      // {
-      //   path: '*',
-      //   element: <NotFound />
-      // },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
     ],
   },
   {
