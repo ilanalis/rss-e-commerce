@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { hasEmailLocalPart, hasEmailSeparator, hasEmailDomainPart } from '@utils/form-validation/';
+import {
+  hasEmailLocalPart,
+  hasEmailSeparator,
+  hasEmailDomainPart,
+  EMAIL_SPECIAL_CHARACTERS,
+} from '@utils/form-validation/';
 
 /* Valid email addresses source:
   https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email#basic_validation */
@@ -10,7 +15,7 @@ describe('Test Email Local Part', () => {
     2. Numbers
     3. Special characters including . ! # $ % & ' * + / = ? ^ _ \ ` { | } ~ - */
 
-  const ALLOWED_SPECIAL_CHARACTERS = ". ! # $ % & ' * + / = ? ^ _ \\ ` { | } ~ -".split(' ');
+  const ALLOWED_SPECIAL_CHARACTERS = EMAIL_SPECIAL_CHARACTERS.split(' ');
 
   it.each([
     ['username', true],

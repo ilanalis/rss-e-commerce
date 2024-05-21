@@ -3,8 +3,9 @@ import cn from 'classnames';
 
 import { FC } from 'react';
 
-import AuthorizationLink from '@/pages/authorization/components/nav-link';
+import AuthorizationLink from '@/pages/authorization/components/authorization-link';
 import RegistrationForm from '@/pages/authorization/registration/';
+// import LoginForm from '@/pages/authorization/login/';
 
 const Authorization: FC = () => {
   return (
@@ -16,6 +17,7 @@ const Authorization: FC = () => {
         </ul>
       </nav>
       <RegistrationForm />
+      {/* <LoginForm /> */}
     </div>
   );
 };

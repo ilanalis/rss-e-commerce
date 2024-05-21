@@ -1,6 +1,6 @@
 import { POSTAL_CODES_REG_EXP } from './postal-codes';
 
-type RegExpKeys =
+export type RegExpKeys =
   | 'CAPITAL_LETTERS'
   | 'SMALL_LETTERS'
   | 'NUMBERS'
@@ -10,6 +10,7 @@ type RegExpKeys =
   | 'EMAIL_LOCAL_PART'
   | 'EMAIL_SEPARATOR'
   | 'EMAIL_DOMAIN_PART'
+  | 'EMAIL'
   | 'DATE';
 
 const REG_EXP_LIST: Record<RegExpKeys, RegExp> = {
@@ -22,8 +23,15 @@ const REG_EXP_LIST: Record<RegExpKeys, RegExp> = {
   EMAIL_LOCAL_PART: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@?/,
   EMAIL_SEPARATOR: /@/,
   EMAIL_DOMAIN_PART: /@([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)(\.[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)+$/,
+  EMAIL:
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
   DATE: /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4}$/,
 };
+
+export const ALL_SPECIAL_CHARACTERS =
+  '! @ # $ % ^ & * ( ) _ + - = [ ] { } ; \' : " \\ | , . < > / ?';
+
+export const EMAIL_SPECIAL_CHARACTERS = ". ! # $ % & ' * + / = ? ^ _ \\ ` { | } ~ -";
 
 type MatchTestFunction = (strToCheck: string) => boolean;
 
@@ -63,6 +71,8 @@ export const hasEmailDomainPart: MatchTestFunction = createMatchTestFunction(
   REG_EXP_LIST.EMAIL_DOMAIN_PART,
 );
 
+export const hasEmail: MatchTestFunction = createMatchTestFunction(REG_EXP_LIST.EMAIL);
+
 type MinMatchTestFunction = (strToCheck: string, minMatchesCount: number) => boolean;
 
 export const isStringLongEnough: MinMatchTestFunction = (str, minLength) => str.length >= minLength;
@@ -71,7 +81,7 @@ export const isAgeAboveMinimum: MinMatchTestFunction = (dateStr, minAge) => {
   const isDate = (date: string) => REG_EXP_LIST.DATE.test(date);
 
   if (!isDate(dateStr)) {
-    console.error('Expected dd-mm-yyyy format, got ', dateStr);
+    // console.error('Expected dd-mm-yyyy format, got ', dateStr);
     return false;
   }
 
@@ -91,7 +101,7 @@ export const isAgeAboveMinimum: MinMatchTestFunction = (dateStr, minAge) => {
 
 export const isPostalCode = (postalCode: string, countryCode: string): boolean => {
   if (!(countryCode in POSTAL_CODES_REG_EXP)) {
-    console.error('Got unknown country code: ', countryCode);
+    // console.error('Got unknown country code: ', countryCode);
     return false;
   }
 
