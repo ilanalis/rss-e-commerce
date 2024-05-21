@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layout';
 import Main from './pages/main';
-import Login from './pages/login';
-import SignUp from './pages/sign-up/';
+import LoginForm from './pages/authorization/login';
+import RegistrationForm from './pages/authorization/registration';
 import Courses from './pages/courses/';
 import AboutUs from './pages/about-us';
 import Profile from './pages/profile';
@@ -10,10 +10,12 @@ import Cart from './pages/cart';
 import CheckAuth from './components/checkAuth';
 import UserContextProvider from './contexts/userContext';
 import NotFound from './pages/not-found';
+import AuthLayout from './components/auth-layout';
+import { Routes } from './utils/const';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: Routes.MAIN,
     element: (
       <UserContextProvider>
         <Layout />
@@ -21,48 +23,48 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: '/',
+        path: Routes.MAIN,
         element: <Main />,
       },
       {
-        path: '/courses',
+        path: Routes.COURSES,
         element: <Courses />,
       },
       {
-        path: '/about',
+        path: Routes.ABOUT,
         element: <AboutUs />,
       },
       {
-        path: '/cart',
+        path: Routes.CART,
         element: <Cart />,
       },
       {
-        path: '/profile',
+        path: Routes.PROFILE,
         element: <Profile />,
       },
       {
-        path: '*',
+        path: Routes.NOT_FOUND,
         element: <NotFound />,
       },
     ],
   },
   {
-    path: '/',
+    path: Routes.MAIN,
     element: (
       <UserContextProvider>
         <CheckAuth>
-          <Layout />
+          <AuthLayout />
         </CheckAuth>
       </UserContextProvider>
     ),
     children: [
       {
-        path: '/login',
-        element: <Login />,
+        path: Routes.LOGIN,
+        element: <LoginForm />,
       },
       {
-        path: '/sign-up',
-        element: <SignUp />,
+        path: Routes.SIGNUP,
+        element: <RegistrationForm />,
       },
     ],
   },

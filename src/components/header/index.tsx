@@ -4,6 +4,7 @@ import Logo from '@components/logo/';
 import cn from 'classnames';
 import { NavLink } from 'react-router-dom';
 import { useUserContext } from '@/contexts/useUserContext';
+import { Routes } from '@/utils/const';
 
 type HeaderProps = {
   theme: 'light' | 'dark';
@@ -24,19 +25,19 @@ function Header({ theme }: HeaderProps) {
                 className={({ isActive }) =>
                   cn(styles.siteNav__link, { [styles.linkActive]: isActive })
                 }
-                to="/courses"
+                to={Routes.COURSES}
               >
                 <i className={cn(styles.icon, styles.coursesIcon)}></i>
                 Courses
               </NavLink>
             </li>
             <li className={styles.header__navItem}>
-              <NavLink to="/about">About us</NavLink>
+              <NavLink to={Routes.ABOUT}>About us</NavLink>
             </li>
           </ul>
           <ul className={cn(styles.header__navList, styles.header__userNav)}>
             <li className={styles.header__navItem}>
-              <NavLink className={styles.userNav__link} to="/cart">
+              <NavLink className={styles.userNav__link} to={Routes.CART}>
                 <i className={cn(styles.icon, styles.basketIcon)}></i>
                 Basket
               </NavLink>
@@ -44,7 +45,7 @@ function Header({ theme }: HeaderProps) {
             {isUserLoggedIn ? (
               <>
                 <li className={styles.header__navItem}>
-                  <NavLink className={styles.userNav__link} to="/profile">
+                  <NavLink className={styles.userNav__link} to={Routes.PROFILE}>
                     <i className={cn(styles.icon, styles.profileIcon)}></i>
                     Profile
                   </NavLink>
@@ -62,13 +63,13 @@ function Header({ theme }: HeaderProps) {
             ) : (
               <>
                 <li className={styles.header__navItem}>
-                  <NavLink className={styles.userNav__link} to="/login">
+                  <NavLink className={styles.userNav__link} to={Routes.LOGIN}>
                     <i className={cn(styles.icon, styles.loginIcon)}></i>
                     Login
                   </NavLink>
                 </li>
                 <li className={styles.header__navItem}>
-                  <NavLink className={styles.userNav__link} to="/sign-up">
+                  <NavLink className={styles.userNav__link} to={Routes.SIGNUP}>
                     <i className={cn(styles.icon, styles.signupIcon)}></i>
                     Sign Up
                   </NavLink>
