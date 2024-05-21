@@ -1,0 +1,13 @@
+.passwordContainer {
+  display: flex;
+  gap: 3%;
+}
+
+.toggleButton {
+  width: 50px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #00f;
+  font-size: 14px;
+}

@@ -1,0 +1,24 @@
+.input {
+  padding: 16px 19px;
+  width: 100%;
+  color: var(--dark-gray-text);
+  background-color: var(--dark-gray-bg);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition: all 0.5s;
+}
+
+.input::placeholder {
+  color: var(--dark-bg-text);
+}
+
+/* .input:focus {
+  color: var(--light-gray-text);
+  background-color: var(--light-bg);
+  border-color: var(--dark-bg-text);
+} */
+
+.title {
+  margin-left: 4px;
+  text-transform: capitalize;
+}
