@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './style.module.css';
 
 import { FC } from 'react';
@@ -13,7 +14,9 @@ const AuthorizationLink: FC<AuthorizationLinkProps> = ({
 }: AuthorizationLinkProps) => {
   return (
     <li className={styles.linkContainer}>
-      <a href={hrefValue}>{title}</a>
+      <Link className={styles.link} to={hrefValue}>
+        {title}
+      </Link>
     </li>
   );
 };
