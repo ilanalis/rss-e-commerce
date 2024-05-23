@@ -29,46 +29,56 @@ Vitest is a tool for testing JavaScript and TypeScript code.
 npm install
 ```
 
-2. Run dev server
+2. Set environment variables:
+ - Rename the .env.example file to .env.
+ - Fill out the necessary environment variables in the .env file based on the provided examples.
+
+3. Run dev server
+
 
 ```
 npm run dev
 ```
 
 #### Another scripts
-
-3. Build for production
+- Build for production
 
 ```
 npm run build
 ```
-
-4. Linting code
+- Linting code
 
 ```
 npm run lint
 ```
+- Fix code by eslint
 
-5. Run tests
+```
+npm run lint:fix
+```
+- Run tests
 
 ```
 npm run test
 ```
-
-6. Preview of finished project
+- Preview finished project
 
 ```
 npm run preview
 ```
-
-7. Run husky
+- Run husky
 
 ```
 npm run prepare
 ```
-
-8. Formating code 
+- Check code format with prettier
 
 ```
 npm run format
+```
+
+- Change code format with prettier  
+
+```
+npm run format:refactor
 ```
