@@ -18,17 +18,8 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-
-    /* Paths to resolve aliases */
-    "paths": {
-      "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@styles/*": ["./src/styles/*"],
-      "@utils/*": ["./src/utils/*"],
-    }
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "system-tests"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
