@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import * as os from 'os';
+// import * as os from 'os';
 
-const { EOL } = os;
+// const { EOL } = os;
+const EOL = '\n';
 
 describe('Test CSS Selector Pattern', () => {
   const pattern = /^[a-z]([a-zA-Z0-9]+){1}(__[a-zA-Z0-9]+)?(--[a-zA-Z0-9]+){0,2}$/;

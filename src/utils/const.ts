@@ -8,3 +8,5 @@ export const Routes = {
   SIGNUP: '/signup',
   NOT_FOUND: '*',
 };
+
+export const localStorageTokenKey = 'userTokenDDS';

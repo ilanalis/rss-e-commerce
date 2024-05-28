@@ -8,7 +8,6 @@ import AboutUs from './pages/about-us';
 import Profile from './pages/profile';
 import Cart from './pages/cart';
 import CheckAuth from './components/checkAuth';
-import UserContextProvider from './contexts/userContext';
 import NotFound from './pages/not-found';
 import AuthLayout from './components/auth-layout';
 import { Routes } from './utils/const';
@@ -16,11 +15,7 @@ import { Routes } from './utils/const';
 export const router = createBrowserRouter([
   {
     path: Routes.MAIN,
-    element: (
-      <UserContextProvider>
-        <Layout />
-      </UserContextProvider>
-    ),
+    element: <Layout />,
     children: [
       {
         path: Routes.MAIN,
@@ -51,11 +46,9 @@ export const router = createBrowserRouter([
   {
     path: Routes.MAIN,
     element: (
-      <UserContextProvider>
-        <CheckAuth>
-          <AuthLayout />
-        </CheckAuth>
-      </UserContextProvider>
+      <CheckAuth>
+        <AuthLayout />
+      </CheckAuth>
     ),
     children: [
       {

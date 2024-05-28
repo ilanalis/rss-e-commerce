@@ -43,11 +43,7 @@ const useFormValidation = (
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
-
-  return { values, errors, handleChange, handleSubmit };
+  return { values, errors, handleChange };
 };
 
 export default useFormValidation;

@@ -7,6 +7,7 @@ import {
   TokenStore,
   type HttpMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
+import { localStorageTokenKey } from '../const';
 
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
   host: import.meta.env.VITE_API_URL,
@@ -35,11 +36,11 @@ type AuthMiddlewareOptions = {
 
 export class MyTokenCache implements TokenCache {
   set(cache: TokenStore): void {
-    localStorage.setItem('userDDS', JSON.stringify(cache));
+    localStorage.setItem(localStorageTokenKey, JSON.stringify(cache));
   }
 
   get(): TokenStore {
-    const userCacheString = localStorage.getItem('userDDS') as string;
+    const userCacheString = localStorage.getItem(localStorageTokenKey) as string;
     return JSON.parse(userCacheString);
   }
 }

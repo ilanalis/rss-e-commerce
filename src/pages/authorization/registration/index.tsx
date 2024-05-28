@@ -1,8 +1,15 @@
 import styles from '@pages/authorization/style.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { FC } from 'react';
 import useFormValidation from '../useFormValidation';
 import { validationRules } from '../validationRules';
 import PasswordInput from '../components/password-input/';
+import { useApiRootContext } from '@/contexts/useApiRootContext';
+import { useUserContext } from '@/contexts/useUserContext';
+import { register } from '@/utils/api/commercetools-api';
+import { MyCustomerDraft } from '@commercetools/platform-sdk';
+import { ToastContainer } from 'react-toastify';
+import notify from '@/utils/notify';
 
 const RegistrationForm: FC = () => {
   const initialState = {
@@ -16,13 +23,44 @@ const RegistrationForm: FC = () => {
     postalCode: '',
     country: 'US',
   };
-  const { values, errors, handleChange, handleSubmit } = useFormValidation(
-    initialState,
-    validationRules,
-  );
+  const { values, errors, handleChange } = useFormValidation(initialState, validationRules);
+  const { apiRoot, setApiRoot } = useApiRootContext();
+  const { setIsUserLoggedIn } = useUserContext();
+
+  async function registerUser(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    const { email, password, firstName, lastName, dateOfBirth, country, city, street, postalCode } =
+      values;
+    const customerDraft: MyCustomerDraft = {
+      email,
+      password,
+      firstName,
+      lastName,
+      dateOfBirth,
+      addresses: [
+        {
+          country,
+          city,
+          streetName: street,
+          postalCode,
+        },
+      ],
+    };
+
+    if (apiRoot) {
+      const response = await register(apiRoot, customerDraft);
+
+      if (response.success && response.apiBuilder) {
+        setApiRoot(response.apiBuilder);
+        setIsUserLoggedIn(true);
+      } else if (response.errorMessage) {
+        notify(response.errorMessage);
+      }
+    }
+  }
 
   return (
-    <form className={styles.formContainer} onSubmit={handleSubmit}>
+    <form className={styles.formContainer}>
       <div className={styles.fieldContainer}>
         <label>Email:</label>
         <input
@@ -128,9 +166,11 @@ const RegistrationForm: FC = () => {
           Object.keys(values).some((key) => key !== 'country' && values[key] === '')
         }
         className={styles.submitButton}
+        onClick={registerUser}
       >
         Signup
       </button>
+      <ToastContainer position="bottom-right" />
     </form>
   );
 };

@@ -11,6 +11,7 @@ import {
   createApiBuilderFromCtpClient,
   MyCustomerDraft,
 } from '@commercetools/platform-sdk';
+import { localStorageTokenKey } from '../const';
 
 function createApiRoot(session: Client): ByProjectKeyRequestBuilder {
   const apiRoot = createApiBuilderFromCtpClient(session).withProjectKey({
@@ -103,7 +104,7 @@ export function refreshUser(): AuthenticationResult {
 }
 
 export function logout(): AuthenticationResult {
-  localStorage.removeItem('userDDS');
+  localStorage.removeItem(localStorageTokenKey);
 
   return { success: true, apiBuilder: createAnonymousApiBuilder() };
 }
