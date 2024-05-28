@@ -56,10 +56,20 @@ npm run lint
 ```
 npm run lint:fix
 ```
-- Run tests
+- Run tests with watch mode
 
 ```
 npm run test
+```
+- Run tests with coverage
+
+```
+npm run test:coverage
+```
+- Preview tests coverage result
+
+```
+npm run test:preview
 ```
 - Preview finished project
 

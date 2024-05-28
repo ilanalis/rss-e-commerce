@@ -2,22 +2,26 @@ import styles from './style.module.css';
 import cn from 'classnames';
 
 import { FC } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import AuthorizationLink from '@/pages/authorization/components/authorization-link';
-// import RegistrationForm from '@/pages/authorization/registration/';
-// import LoginForm from '@/pages/authorization/login/';
+import Header from '@/components/header';
 
-const Authorization: FC = () => {
+const AuthorizationLayout: FC = () => {
   return (
-    <div className={cn('container', styles.authorizationContainer)}>
-      <nav className={styles.navContainer}>
-        <ul className={styles.nav}>
-          <AuthorizationLink title={'Login'} hrefValue="#login" />
-          <AuthorizationLink title={'Sign-up'} hrefValue="#signup" />
-        </ul>
-      </nav>
-    </div>
+    <>
+      <Header theme="dark" />
+      <div className={cn('container', styles.authorizationContainer)}>
+        <nav className={styles.navContainer}>
+          <ul className={styles.nav}>
+            <AuthorizationLink title={'Login'} hrefValue="/login" />
+            <AuthorizationLink title={'Sign-up'} hrefValue="/signup" />
+          </ul>
+        </nav>
+        <Outlet />
+      </div>
+    </>
   );
 };
 
-export default Authorization;
+export default AuthorizationLayout;

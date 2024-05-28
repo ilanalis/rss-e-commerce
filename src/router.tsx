@@ -9,7 +9,7 @@ import Profile from './pages/profile';
 import Cart from './pages/cart';
 import CheckAuth from './components/checkAuth';
 import NotFound from './pages/not-found';
-import AuthLayout from './components/auth-layout';
+import AuthorizationLayout from '@pages/authorization';
 import { Routes } from './utils/const';
 
 export const router = createBrowserRouter([
@@ -47,7 +47,7 @@ export const router = createBrowserRouter([
     path: Routes.MAIN,
     element: (
       <CheckAuth>
-        <AuthLayout />
+        <AuthorizationLayout />
       </CheckAuth>
     ),
     children: [

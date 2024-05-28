@@ -15,6 +15,7 @@
     "format:refactor": "prettier --write ./src",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:preview": "vite preview --outDir coverage",
     "stylelint": "stylelint **/*.css",
     "stylelint:fix": "stylelint --fix **/*.css"
   },

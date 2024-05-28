@@ -43,7 +43,7 @@ export const supportedCountries = ['US', 'NL', 'RU', 'GB'];
 
 export const validateEmail: ValidationFunction = (inputValue) => {
   const constructMessage = (error: string) =>
-    `${error} ${error ? '.' : ''}\n Use one '@', letters, numbers and symbols: ${EMAIL_SPECIAL_CHARACTERS}`;
+    `${error} ${error ? '. ' : ''}Use one '@', letters, numbers and symbols: ${EMAIL_SPECIAL_CHARACTERS}`;
 
   if (hasSpaces(inputValue)) {
     return 'Email must not contain space characters';
