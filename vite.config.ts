@@ -13,6 +13,7 @@ export default defineConfig({
     alias: {
       '@': '/src',
       '@components': '/src/components',
+      '@contexts': '/src/contexts',
       '@pages': '/src/pages',
       '@styles': '/src/styles',
       '@utils': '/src/utils',

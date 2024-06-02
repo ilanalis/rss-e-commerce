@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
 import styles from './style.module.css';
 
 import { FC } from 'react';
+import { Link } from 'react-router-dom';
 
 export interface AuthorizationLinkProps {
   title: string;

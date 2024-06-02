@@ -9,13 +9,19 @@ import {
   validatePostalCode,
 } from './validation';
 
-export const validationRules = {
+const validationRules = {
   email: validateEmail,
   password: validatePassword,
   firstName: validateFirstName,
   lastName: validateLastName,
   dateOfBirth: validateDateOfBirth,
-  street: validateStreet,
-  city: validateCity,
-  postalCode: validatePostalCode,
+  shippingStreet: validateStreet,
+  shippingCity: validateCity,
+  shippingPostalCode: validatePostalCode,
+  billingStreet: validateStreet,
+  billingCity: validateCity,
+  billingPostalCode: validatePostalCode,
 };
+
+export const getValidationRules = (keys: string[]) =>
+  Object.fromEntries(Object.entries(validationRules).filter(([key]) => keys.includes(key)));

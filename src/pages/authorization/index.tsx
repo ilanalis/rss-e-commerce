@@ -4,8 +4,9 @@ import cn from 'classnames';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import AuthorizationLink from '@/pages/authorization/components/authorization-link';
 import Header from '@/components/header';
+
+import AuthorizationLink from '@/pages/authorization/components/authorization-link';
 
 const AuthorizationLayout: FC = () => {
   return (

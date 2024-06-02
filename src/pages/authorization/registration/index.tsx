@@ -1,33 +1,37 @@
 import styles from '@pages/authorization/style.module.css';
 import 'react-toastify/dist/ReactToastify.css';
-import { FC } from 'react';
-import useFormValidation from '../useFormValidation';
-import { validationRules } from '../validationRules';
-import PasswordInput from '../components/password-input/';
-import { useApiRootContext } from '@/contexts/useApiRootContext';
-import { useUserContext } from '@/contexts/useUserContext';
-import { register } from '@/utils/api/commercetools-api';
-import { MyCustomerDraft } from '@commercetools/platform-sdk';
+
+import React, { FC } from 'react';
 import { ToastContainer } from 'react-toastify';
-import notify from '@/utils/notify';
+
+import { MyCustomerDraft } from '@commercetools/platform-sdk';
+
+import { useApiRootContext } from '@contexts/useApiRootContext';
+import { useUserContext } from '@contexts/useUserContext';
+
+import { register } from '@utils/api/commercetools-api';
+import notify from '@utils/notify';
+
+import useFormValidation, { FormState } from '@pages/authorization/useFormValidation';
+import { getValidationRules } from '@pages/authorization/validationRules';
+import PasswordInput from '@pages/authorization/components/password-input/';
+import {
+  COUNTRY_OPTIONS,
+  initialRegistrationData,
+  inputNames,
+} from '@/pages/authorization/forms-config';
+import InputField from '@pages/authorization/components/input-field';
+import SelectField from '@pages/authorization/components/select-field';
 
 const RegistrationForm: FC = () => {
-  const initialState = {
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '',
-    street: '',
-    city: '',
-    postalCode: '',
-    country: 'US',
-  };
-  const { values, errors, handleChange } = useFormValidation(initialState, validationRules);
+  const initialState: FormState = initialRegistrationData;
+
+  const { values, errors, handleChange, changeValues, validateValue, isFormValid } =
+    useFormValidation(initialState, getValidationRules(Object.keys(initialState)));
   const { apiRoot, setApiRoot } = useApiRootContext();
   const { setIsUserLoggedIn } = useUserContext();
 
-  async function registerUser(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  async function registerUser(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const { email, password, firstName, lastName, dateOfBirth, country, city, street, postalCode } =
       values;
@@ -47,6 +51,15 @@ const RegistrationForm: FC = () => {
       ],
     };
 
+    const form = e.target;
+    if (form instanceof HTMLFormElement) {
+      const defaultShippingInput = form.elements[inputNames.defaultShipping];
+
+      if (defaultShippingInput instanceof HTMLInputElement) {
+        console.log(defaultShippingInput.checked);
+      }
+    }
+
     if (apiRoot) {
       const response = await register(apiRoot, customerDraft);
 
@@ -59,115 +72,176 @@ const RegistrationForm: FC = () => {
     }
   }
 
+  const setBillingAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+
+    if (isChecked) {
+      const newValues = {
+        billingCountry: values.shippingCountry,
+        billingPostalCode: values.shippingPostalCode,
+        billingCity: values.shippingCity,
+        billingStreet: values.shippingStreet,
+      };
+      changeValues(newValues, values.shippingCountry);
+    }
+  };
+
+  const changePostalCode = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+
+    let postalCodeName = inputNames.shippingPostalCode;
+    if (name === inputNames.billingCountry) {
+      postalCodeName = inputNames.billingPostalCode;
+    }
+
+    changeValues({ [name]: value });
+    validateValue(postalCodeName, values[postalCodeName], value);
+  };
+
   return (
-    <form className={styles.formContainer}>
-      <div className={styles.fieldContainer}>
-        <label>Email:</label>
-        <input
-          className={styles.input}
-          type="text"
-          name="email"
-          value={values.email}
-          onChange={handleChange}
-        />
-        {errors.email && <span className={styles.error}>{errors.email}</span>}
-      </div>
+    <form className={styles.formContainer} onSubmit={registerUser}>
+      <InputField
+        labelTitle="Email"
+        name={inputNames.email}
+        type="text"
+        value={values[inputNames.email]}
+        onChange={handleChange}
+        error={errors[inputNames.email]}
+        autoComplete={`user-${inputNames.email}`}
+      />
       <div className={styles.fieldContainer}>
         <label>Password:</label>
-        <PasswordInput name="password" value={values.password} onChange={handleChange} />
-        {errors.password && <span className={styles.error}>{errors.password}</span>}
+        <PasswordInput
+          name={inputNames.password}
+          value={values[inputNames.password]}
+          onChange={handleChange}
+        />
+        {errors[inputNames.password] && (
+          <span className={styles.error}>{errors[inputNames.password]}</span>
+        )}
       </div>
-      <div className={styles.fieldContainer}>
-        <label>First Name:</label>
-        <input
-          className={styles.input}
+      <InputField
+        labelTitle="First Name"
+        type="text"
+        name={inputNames.firstName}
+        value={values[inputNames.firstName]}
+        onChange={handleChange}
+        error={errors[inputNames.firstName]}
+        autoComplete={`user-${inputNames.firstName}`}
+      />
+      <InputField
+        labelTitle="Last Name"
+        type="text"
+        name={inputNames.lastName}
+        value={values[inputNames.lastName]}
+        onChange={handleChange}
+        error={errors[inputNames.lastName]}
+        autoComplete={`user-${inputNames.lastName}`}
+      />
+      <InputField
+        labelTitle="Date of Birth"
+        type="date"
+        name={inputNames.dateOfBirth}
+        value={values[inputNames.dateOfBirth]}
+        onChange={handleChange}
+        error={errors[inputNames.dateOfBirth]}
+        autoComplete={`user-${inputNames.dateOfBirth}`}
+      />
+
+      <fieldset>
+        <legend>Shipping Address</legend>
+        <SelectField
+          labelTitle="Country:"
+          name={inputNames.shippingCountry}
+          options={COUNTRY_OPTIONS}
+          value={values[inputNames.shippingCountry]}
+          onChange={changePostalCode}
+          error={errors[inputNames.shippingCountry]}
+        />
+        <InputField
+          labelTitle="Postal Code"
           type="text"
-          name="firstName"
-          value={values.firstName}
-          onChange={handleChange}
+          name={inputNames.shippingPostalCode}
+          value={values[inputNames.shippingPostalCode]}
+          onChange={(e) => handleChange(e, values[inputNames.shippingCountry])}
+          error={errors[inputNames.shippingPostalCode]}
         />
-        {errors.firstName && <span className={styles.error}>{errors.firstName}</span>}
-      </div>
-      <div className={styles.fieldContainer}>
-        <label>Last Name:</label>
-        <input
-          className={styles.input}
+        <InputField
+          labelTitle="City"
           type="text"
-          name="lastName"
-          value={values.lastName}
+          name={inputNames.shippingCity}
+          value={values[inputNames.shippingCity]}
           onChange={handleChange}
+          error={errors[inputNames.shippingCity]}
         />
-        {errors.lastName && <span className={styles.error}>{errors.lastName}</span>}
-      </div>
-      <div className={styles.fieldContainer}>
-        <label>Date of Birth:</label>
-        <input
-          className={styles.input}
-          type="date"
-          name="dateOfBirth"
-          value={values.dateOfBirth}
-          onChange={handleChange}
-        />
-        {errors.dateOfBirth && <span className={styles.error}>{errors.dateOfBirth}</span>}
-      </div>
-      <div className={styles.fieldContainer}>
-        <label htmlFor="country">Country:</label>
-        <select
-          className={styles.countriesSelect}
-          id="country"
-          name="country"
-          value={values.country}
-          onChange={handleChange}
-        >
-          <option value="US">United States</option>
-          <option value="DE">Germany</option>
-          <option value="NL">Netherlands</option>
-          <option value="RU">Russia</option>
-        </select>
-        {errors.country && <span className={styles.error}>{errors.country}</span>}
-      </div>
-      <div className={styles.fieldContainer}>
-        <label>Postal Code:</label>
-        <input
-          className={styles.input}
+        <InputField
+          labelTitle="Street"
           type="text"
-          name="postalCode"
-          value={values.postalCode}
-          onChange={(e) => handleChange(e, values['country'])}
-        />
-        {errors.postalCode && <span className={styles.error}>{errors.postalCode}</span>}
-      </div>
-      <div className={styles.fieldContainer}>
-        <label>City:</label>
-        <input
-          className={styles.input}
-          type="text"
-          name="city"
-          value={values.city}
+          name={inputNames.shippingStreet}
+          value={values[inputNames.shippingStreet]}
           onChange={handleChange}
+          error={errors[inputNames.shippingStreet]}
         />
-        {errors.city && <span className={styles.error}>{errors.city}</span>}
-      </div>
-      <div className={styles.fieldContainer}>
-        <label>Street:</label>
-        <input
-          className={styles.input}
+        <div className={styles.checkboxContainer}>
+          <input
+            type="checkbox"
+            id={inputNames.billingAddress}
+            name={inputNames.billingAddress}
+            onChange={setBillingAddress}
+          />
+          <label htmlFor={inputNames.billingAddress}>Set as billing address</label>
+        </div>
+        <div className={styles.checkboxContainer}>
+          <input
+            type="checkbox"
+            id={inputNames.defaultShipping}
+            name={inputNames.defaultShipping}
+          />
+          <label htmlFor={inputNames.defaultShipping}>Set as default address</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Billing Address</legend>
+        <SelectField
+          labelTitle="Country:"
+          name={inputNames.billingCountry}
+          options={COUNTRY_OPTIONS}
+          value={values[inputNames.billingCountry]}
+          onChange={changePostalCode}
+          error={errors[inputNames.billingCountry]}
+        />
+        <InputField
+          labelTitle="Postal Code"
           type="text"
-          name="street"
-          value={values.street}
-          onChange={handleChange}
+          name={inputNames.billingPostalCode}
+          value={values[inputNames.billingPostalCode]}
+          onChange={(e) => handleChange(e, values[inputNames.billingCountry])}
+          error={errors[inputNames.billingPostalCode]}
         />
-        {errors.street && <span className={styles.error}>{errors.street}</span>}
-      </div>
-      <button
-        type="submit"
-        disabled={
-          Object.values(errors).some((error) => error !== undefined) ||
-          Object.keys(values).some((key) => key !== 'country' && values[key] === '')
-        }
-        className={styles.submitButton}
-        onClick={registerUser}
-      >
+        <InputField
+          labelTitle="City"
+          type="text"
+          name={inputNames.billingCity}
+          value={values[inputNames.billingCity]}
+          onChange={handleChange}
+          error={errors[inputNames.billingCity]}
+        />
+        <InputField
+          labelTitle="Street"
+          type="text"
+          name={inputNames.billingStreet}
+          value={values[inputNames.billingStreet]}
+          onChange={handleChange}
+          error={errors[inputNames.billingStreet]}
+        />
+        <div className={styles.checkboxContainer}>
+          <input type="checkbox" id={inputNames.defaultBilling} name={inputNames.defaultBilling} />
+          <label htmlFor={inputNames.defaultBilling}>Set as default address</label>
+        </div>
+      </fieldset>
+
+      <button type="submit" disabled={!isFormValid()} className={styles.submitButton}>
         Signup
       </button>
       <ToastContainer position="bottom-right" />

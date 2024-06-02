@@ -1,5 +1,6 @@
 import authorizationStyles from '@pages/authorization/style.module.css';
 import styles from './style.module.css';
+
 import { FC, useState } from 'react';
 
 interface PasswordInputProps {
@@ -10,6 +11,7 @@ interface PasswordInputProps {
   title?: string;
   id?: string;
   placeholder?: string;
+  autoComplete?: string;
 }
 
 const PasswordInput: FC<PasswordInputProps> = ({
@@ -20,6 +22,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
   title,
   id,
   placeholder,
+  autoComplete = 'current-password',
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -33,6 +36,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
         title={title}
         id={id}
         placeholder={placeholder}
+        autoComplete={autoComplete}
         className={authorizationStyles.input}
       />
       <button
