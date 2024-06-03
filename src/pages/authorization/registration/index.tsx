@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import React, { FC } from 'react';
 import { ToastContainer } from 'react-toastify';
 
-import { MyCustomerDraft } from '@commercetools/platform-sdk';
+import { BaseAddress, MyCustomerDraft } from '@commercetools/platform-sdk';
 
 import { useApiRootContext } from '@contexts/useApiRootContext';
 import { useUserContext } from '@contexts/useUserContext';
@@ -22,6 +22,7 @@ import {
 } from '@/pages/authorization/forms-config';
 import InputField from '@pages/authorization/components/input-field';
 import SelectField from '@pages/authorization/components/select-field';
+import { isHTMLInputElement } from '@/utils/type-guards';
 
 const RegistrationForm: FC = () => {
   const initialState: FormState = initialRegistrationData;
@@ -33,32 +34,67 @@ const RegistrationForm: FC = () => {
 
   async function registerUser(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const { email, password, firstName, lastName, dateOfBirth, country, city, street, postalCode } =
-      values;
+    const {
+      email,
+      password,
+      firstName,
+      lastName,
+      dateOfBirth,
+      shippingStreet,
+      shippingCity,
+      shippingPostalCode,
+      shippingCountry,
+      billingStreet,
+      billingCity,
+      billingPostalCode,
+      billingCountry,
+    } = values;
+
+    const addresses = [
+      createAddressObject(shippingCountry, shippingCity, shippingStreet, shippingPostalCode),
+    ];
+
+    let defaultShippingAddressId: number | undefined;
+    let defaultBillingAddressId: number | undefined;
+
+    const form = e.target;
+
+    if (form instanceof HTMLFormElement) {
+      const defaultShippingInput = form.elements[inputNames.defaultShipping];
+      const defaultBillingInput = form.elements[inputNames.defaultBilling];
+      const setShippingAsBillingAddressInput = form.elements[inputNames.billingAddress];
+
+      if (
+        isHTMLInputElement(defaultShippingInput) &&
+        isHTMLInputElement(defaultBillingInput) &&
+        isHTMLInputElement(setShippingAsBillingAddressInput)
+      ) {
+        if (!setShippingAsBillingAddressInput.checked) {
+          addresses.push(
+            createAddressObject(billingCountry, billingCity, billingStreet, billingPostalCode),
+          );
+        }
+
+        if (defaultShippingInput.checked) {
+          defaultShippingAddressId = 0;
+        }
+
+        if (defaultBillingInput.checked) {
+          defaultBillingAddressId = addresses.length === 1 ? 0 : 1;
+        }
+      }
+    }
+
     const customerDraft: MyCustomerDraft = {
       email,
       password,
       firstName,
       lastName,
       dateOfBirth,
-      addresses: [
-        {
-          country,
-          city,
-          streetName: street,
-          postalCode,
-        },
-      ],
+      addresses,
+      defaultShippingAddress: defaultShippingAddressId,
+      defaultBillingAddress: defaultBillingAddressId,
     };
-
-    const form = e.target;
-    if (form instanceof HTMLFormElement) {
-      const defaultShippingInput = form.elements[inputNames.defaultShipping];
-
-      if (defaultShippingInput instanceof HTMLInputElement) {
-        console.log(defaultShippingInput.checked);
-      }
-    }
 
     if (apiRoot) {
       const response = await register(apiRoot, customerDraft);
@@ -70,6 +106,20 @@ const RegistrationForm: FC = () => {
         notify(response.errorMessage);
       }
     }
+  }
+
+  function createAddressObject(
+    country: string,
+    city: string,
+    streetName: string,
+    postalCode: string,
+  ): BaseAddress {
+    return {
+      country,
+      city,
+      streetName,
+      postalCode,
+    };
   }
 
   const setBillingAddress = (e: React.ChangeEvent<HTMLInputElement>) => {

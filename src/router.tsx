@@ -7,9 +7,10 @@ import Courses from './pages/courses/';
 import AboutUs from './pages/about-us';
 import Profile from './pages/profile';
 import Cart from './pages/cart';
-import CheckAuth from './components/checkAuth';
 import NotFound from './pages/not-found';
 import AuthorizationLayout from '@pages/authorization';
+import ProtectedRoute from './components/protectedRoute';
+import PublicRoute from './components/publicRoute';
 import { Routes } from './utils/const';
 
 export const router = createBrowserRouter([
@@ -33,10 +34,7 @@ export const router = createBrowserRouter([
         path: Routes.CART,
         element: <Cart />,
       },
-      {
-        path: Routes.PROFILE,
-        element: <Profile />,
-      },
+
       {
         path: Routes.NOT_FOUND,
         element: <NotFound />,
@@ -46,9 +44,9 @@ export const router = createBrowserRouter([
   {
     path: Routes.MAIN,
     element: (
-      <CheckAuth>
+      <PublicRoute>
         <AuthorizationLayout />
-      </CheckAuth>
+      </PublicRoute>
     ),
     children: [
       {
@@ -58,6 +56,20 @@ export const router = createBrowserRouter([
       {
         path: Routes.SIGNUP,
         element: <RegistrationForm />,
+      },
+    ],
+  },
+  {
+    path: Routes.MAIN,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: Routes.PROFILE,
+        element: <Profile />,
       },
     ],
   },
