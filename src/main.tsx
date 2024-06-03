@@ -1,10 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
+import ApiRootContextProvider from './contexts/apiRootContext.tsx';
+import UserContextProvider from './contexts/userContext.tsx';
 
 ReactDOM.createRoot(getRootDiv()).render(
   <React.StrictMode>
-    <App />
+    <ApiRootContextProvider>
+      <UserContextProvider>
+        <App />
+      </UserContextProvider>
+    </ApiRootContextProvider>
   </React.StrictMode>,
 );
 

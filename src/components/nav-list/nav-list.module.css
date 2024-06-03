@@ -1,0 +1,114 @@
+.navList {
+  display: flex;
+  gap: 2rem;
+}
+
+.siteNav {
+  margin-left: 2rem;
+  align-items: baseline;
+}
+
+.userNav {
+  align-items: end;
+}
+
+.navItem {
+  position: relative;
+}
+
+.navLink {
+  min-height: 100%;
+}
+
+.userNav__link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.siteNav__link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+@media (pointer: fine) {
+  .userNav__link:hover::after,
+  .siteNav__link:hover::after {
+    width: 100%;
+    left: 0;
+  }
+}
+
+.userNav__link::after,
+.siteNav__link::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  display: block;
+  width: 0;
+  height: 2px;
+  transition: all 0.5s;
+  background: linear-gradient(90deg, #f7941d 0%, #27aae1 100%);
+}
+
+.linkActive::after {
+  width: 100%;
+  left: 0;
+}
+
+.linkActive:hover,
+.linkActive:hover::after {
+  cursor:default;
+}
+
+.siteNav__link i {
+  align-self: center;
+}
+
+.icon {
+  mask-size: cover;
+}
+
+.light .icon {
+  background-color: var(--dark-text);
+}
+
+.dark .icon {
+  background-color: var(--light-text);
+}
+
+.logoutButton {
+  padding: 0;
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+.light .logoutButton {
+  color: var(--dark-text);
+}
+
+.dark .logoutButton {
+  color: var(--light-text);
+}
+
+@media (width <= 680px) {
+  .siteNav {
+    margin-left: 0;
+  }
+
+  .navList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.5rem;
+  }
+
+  .userNav__link {
+    flex-direction: row;
+  }
+}
