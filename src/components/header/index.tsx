@@ -46,16 +46,8 @@ function Header({ theme }: HeaderProps) {
         <Logo theme={theme} />
         <nav className={cn(styles.header__nav, { [styles.active]: isOpen })}>
           <div className={styles.header__navContainer}>
-            <NavList 
-              theme='dark' 
-              nav='site' 
-              items={siteNavItems} 
-            />
-            <NavList 
-              theme='dark' 
-              nav='user' 
-              items={currentUserNavItems} 
-            />
+            <NavList theme="dark" nav="site" items={siteNavItems} />
+            <NavList theme="dark" nav="user" items={currentUserNavItems} />
           </div>
         </nav>
         <button

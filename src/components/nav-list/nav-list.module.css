@@ -62,7 +62,7 @@
 
 .linkActive:hover,
 .linkActive:hover::after {
-  cursor:default;
+  cursor: default;
 }
 
 .siteNav__link i {

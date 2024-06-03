@@ -5,12 +5,12 @@ export const siteNavItems = [
   {
     title: 'Courses',
     route: Routes.COURSES,
-    icon: styles.coursesIcon
+    icon: styles.coursesIcon,
   },
   {
     title: 'About',
-    route: Routes.ABOUT
-  }
+    route: Routes.ABOUT,
+  },
 ];
 
 export const userNavItems = {
