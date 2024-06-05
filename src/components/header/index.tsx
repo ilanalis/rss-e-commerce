@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUserContext } from '@/contexts/useUserContext';
 import { useApiRootContext } from '@/contexts/useApiRootContext';
 import Logo from '@components/logo/';
@@ -17,6 +17,25 @@ function Header({ theme }: HeaderProps) {
 
   const { setApiRoot } = useApiRootContext();
   const { isUserLoggedIn, setIsUserLoggedIn } = useUserContext();
+
+  useEffect(() => {
+    function handleLinkClick(event: Event) {
+      if (event.target as HTMLElement) {
+        setOpen(false);
+        document.body.classList.remove('lock');
+      }
+    }
+
+    document
+      .querySelector(`.${styles.header__navContainer}`)
+      ?.addEventListener('click', handleLinkClick);
+
+    return () => {
+      document
+        .querySelector(`.${styles.header__navContainer}`)
+        ?.removeEventListener('click', handleLinkClick);
+    };
+  }, []);
 
   function handleMenuButton() {
     setOpen(!isOpen);

@@ -51,6 +51,7 @@ const LoginForm: FC = () => {
         onChange={handleChange}
         error={errors[inputNames.email]}
         autoComplete={`user-${inputNames.email}`}
+        styles={styles}
       />
       <div className={styles.fieldContainer}>
         <label>Password:</label>
