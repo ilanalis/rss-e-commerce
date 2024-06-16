@@ -1,0 +1,16 @@
+.breadcrumbs {
+  display: flex;
+  gap: 3px;
+  margin: 1rem 0;
+  font-weight: bold;
+}
+
+.link {
+  transition: all 0.5s;
+}
+
+@media (pointer: fine) {
+  .link:hover {
+    color: var(--accent-color);
+  }
+}

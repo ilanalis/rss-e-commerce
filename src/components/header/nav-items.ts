@@ -3,8 +3,8 @@ import styles from './header.module.css';
 
 export const siteNavItems = [
   {
-    title: 'Courses',
-    route: Routes.COURSES,
+    title: 'Catalog',
+    route: Routes.CATALOG,
     icon: styles.coursesIcon,
   },
   {

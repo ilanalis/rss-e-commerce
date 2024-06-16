@@ -8,9 +8,9 @@ function Main() {
     <div className={cn('container', styles.main)}>
       <ul>
         <li className={styles.navItem}>
-          <Link className={styles.link} to={Routes.COURSES}>
+          <Link className={styles.link} to={Routes.CATALOG}>
             <i className={cn(styles.icon, styles.coursesIcon)}></i>
-            Courses
+            Catalog
           </Link>
         </li>
         <li className={styles.navItem}>

@@ -10,6 +10,7 @@
   font-weight: bold;
   border: 1px solid var(--dark-text);
   border-radius: 10px;
+  transition: all 0.5s;
 }
 
 .img {
@@ -24,8 +25,8 @@
 }
 
 @media (pointer: fine) {
-  .card:hover{
+  .card:hover {
     scale: 1.05;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
   }
 }

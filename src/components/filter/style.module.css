@@ -1,0 +1,70 @@
+.wrapper {
+  position: relative;
+  width: 200px;
+  height: 100%;
+}
+
+.filter {
+  position: sticky;
+  top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 200px;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+
+.level {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.level label {
+  display: flex;
+  gap: 10px;
+}
+
+@media (pointer: fine) {
+  .level label:hover {
+    cursor: pointer;
+    color: var(--accent-color);
+  }
+
+  .button:hover {
+    color: var(--accent-color);
+  }
+}
+
+.title {
+  font-weight: bold;
+}
+
+.button {
+  padding: 5px;
+  font-weight: bold;
+  background: transparent;
+  border-width: 1px;
+  border-radius: 7px;
+  transition: all 0.5s;
+}
+
+@media (width <=840px) {
+  .wrapper {
+    width: 100%;
+  }
+
+  .filter {
+    width: 100%;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+  }
+
+  .button {
+    align-self: center;
+    width: 60%;
+  }
+}

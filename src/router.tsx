@@ -11,7 +11,8 @@ import NotFound from './pages/not-found';
 import AuthorizationLayout from '@pages/authorization';
 import ProtectedRoute from './components/protectedRoute';
 import PublicRoute from './components/publicRoute';
-import { Routes } from './utils/const';
+import { CategoryId, Routes } from './utils/const';
+import ProductList from './components/product-list';
 
 export const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ export const router = createBrowserRouter([
         element: <Main />,
       },
       {
-        path: Routes.COURSES,
+        path: Routes.CATALOG,
         element: <Courses />,
       },
       {
@@ -70,6 +71,46 @@ export const router = createBrowserRouter([
       {
         path: Routes.PROFILE,
         element: <Profile />,
+      },
+    ],
+  },
+  {
+    path: Routes.CATALOG,
+    element: <Layout />,
+    children: [
+      {
+        path: Routes.PROGRAMMING,
+        element: <ProductList categoryId={CategoryId.PROGRAMMING} />,
+      },
+    ],
+  },
+  {
+    path: Routes.CATALOG,
+    element: <Layout />,
+    children: [
+      {
+        path: Routes.DESIGN,
+        element: <ProductList categoryId={CategoryId.DESIGN} />,
+      },
+    ],
+  },
+  {
+    path: Routes.CATALOG,
+    element: <Layout />,
+    children: [
+      {
+        path: Routes.MARKETING,
+        element: <ProductList categoryId={CategoryId.MARKETING} />,
+      },
+    ],
+  },
+  {
+    path: Routes.CATALOG,
+    element: <Layout />,
+    children: [
+      {
+        path: Routes.BUSINESS,
+        element: <ProductList categoryId={CategoryId.BUSINESS} />,
       },
     ],
   },
