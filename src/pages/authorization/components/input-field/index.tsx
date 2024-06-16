@@ -1,6 +1,5 @@
-// import styles from '@pages/authorization/style.module.css';
-
 import { FC, HTMLInputTypeAttribute } from 'react';
+import cn from 'classnames';
 
 export type Styles = { [key: string]: string };
 
@@ -31,7 +30,7 @@ const InputField: FC<TextFieldProps> = ({
     <div className={styles.fieldContainer}>
       <label>{label}</label>
       <input
-        className={styles.input}
+        className={isDisabled ? cn(styles.input, styles.disabled) : styles.input}
         type={type}
         name={name}
         value={value}

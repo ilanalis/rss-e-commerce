@@ -53,7 +53,7 @@ const useFormValidation = (
     Object.values(errors).length === Object.values(validate).length &&
     Object.values(errors).every((error) => error === undefined);
 
-  return { values, errors, handleChange, changeValues, validateValue, isFormValid };
+  return { values, errors, handleChange, changeValues, validateValue, isFormValid, setErrors };
 };
 
 export default useFormValidation;

@@ -7,6 +7,7 @@ import { Customer } from '@commercetools/platform-sdk';
 import PersonalInfo from './PersonalInfo';
 import AddressesInfo from './AddressesInfo';
 import ChangePassword from './ChangePassword';
+import { ToastContainer } from 'react-toastify';
 
 type Page = 'personalInfo' | 'addresses' | 'changePassword';
 
@@ -24,6 +25,7 @@ const Profile: FC = () => {
             firstName={userInfo?.firstName}
             lastName={userInfo?.lastName}
             dateOfBirth={userInfo?.dateOfBirth}
+            setUserInfo={setUserInfo}
           />
         );
       case 'addresses':
@@ -32,6 +34,7 @@ const Profile: FC = () => {
             addresses={userInfo?.addresses ? userInfo?.addresses : []}
             defaultShippingAddress={userInfo?.defaultShippingAddressId}
             defaultBillingAddress={userInfo?.defaultBillingAddressId}
+            setUserInfo={setUserInfo}
           />
         );
       case 'changePassword':
@@ -43,6 +46,7 @@ const Profile: FC = () => {
             firstName={userInfo?.firstName}
             lastName={userInfo?.lastName}
             dateOfBirth={userInfo?.dateOfBirth}
+            setUserInfo={setUserInfo}
           />
         );
     }
@@ -89,6 +93,7 @@ const Profile: FC = () => {
         </nav>
       </div>
       <div className={styles.contentBlock}>{renderPage()}</div>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };

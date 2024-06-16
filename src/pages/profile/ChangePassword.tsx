@@ -4,15 +4,38 @@ import PasswordInput from '../authorization/components/password-input';
 import { inputNames } from '../authorization/forms-config';
 import { getValidationRules } from '../authorization/validationRules';
 import useFormValidation from '../authorization/useFormValidation';
+import { useApiRootContext } from '@/contexts/useApiRootContext';
+import { changePassword } from '@/utils/api/user-api';
+import notify from '@/utils/notify';
 
 const ChangePassword: FC = () => {
+  const { apiRoot, setApiRoot } = useApiRootContext();
+
   const initialState = {
     password: '',
+    newPassword: '',
   };
-  const { values, errors, handleChange } = useFormValidation(
+
+  const { values, errors, handleChange, changeValues, isFormValid, setErrors } = useFormValidation(
     initialState,
     getValidationRules(Object.keys(initialState)),
   );
+
+  async function changeUserPassword() {
+    if (apiRoot) {
+      const response = await changePassword(apiRoot, values.password, values.newPassword);
+      if (response.success && response.apiRoot) {
+        notify('Successful changing password!');
+
+        changeValues({ [inputNames.password]: '', [inputNames.newPassword]: '' });
+        setErrors({ [inputNames.password]: undefined, [inputNames.newPassword]: undefined });
+        setApiRoot(response.apiRoot);
+        console.log(errors, errors[inputNames.newPassword]);
+      } else if (response.errorMessage) {
+        notify(response.errorMessage);
+      }
+    }
+  }
 
   return (
     <>
@@ -22,7 +45,6 @@ const ChangePassword: FC = () => {
           name={inputNames.password}
           value={values[inputNames.password]}
           onChange={handleChange}
-          isDisabled={true}
         />
         {errors[inputNames.password] && (
           <span className={styles.error}>{errors[inputNames.password]}</span>
@@ -31,16 +53,17 @@ const ChangePassword: FC = () => {
       <div className={styles.fieldContainer}>
         <label>New password:</label>
         <PasswordInput
-          name={inputNames.password}
-          value={values[inputNames.password]}
+          name={inputNames.newPassword}
+          value={values[inputNames.newPassword]}
           onChange={handleChange}
-          isDisabled={true}
         />
-        {errors[inputNames.password] && (
-          <span className={styles.error}>{errors[inputNames.password]}</span>
+        {errors[inputNames.newPassword] && (
+          <span className={styles.error}>{errors[inputNames.newPassword]}</span>
         )}
       </div>
-      <button className={styles.btn}>Change Password</button>
+      <button disabled={!isFormValid()} className={styles.btn} onClick={changeUserPassword}>
+        Change Password
+      </button>
     </>
   );
 };

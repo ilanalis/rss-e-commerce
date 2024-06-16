@@ -9,6 +9,7 @@ interface SelectFieldProps {
   options: { value: string; labelTitle: string }[];
   styles: Styles;
   error?: string;
+  isDisabled?: boolean;
 }
 
 const SelectField: FC<SelectFieldProps> = ({
@@ -19,6 +20,7 @@ const SelectField: FC<SelectFieldProps> = ({
   options,
   error,
   styles,
+  isDisabled,
 }) => (
   <div className={styles.fieldContainer}>
     <label htmlFor={name}>{labelTitle}</label>
@@ -28,6 +30,7 @@ const SelectField: FC<SelectFieldProps> = ({
       name={name}
       value={value}
       onChange={onChange}
+      disabled={isDisabled}
     >
       {options.map((option) => (
         <option key={option.value} value={option.value}>
