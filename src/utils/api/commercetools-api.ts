@@ -11,7 +11,7 @@ import {
   createApiBuilderFromCtpClient,
   MyCustomerDraft,
 } from '@commercetools/platform-sdk';
-import { localStorageTokenKey } from '../const';
+import { localStorageAnonymousId, localStorageCartsId, localStorageTokenKey } from '../const';
 
 function createApiRoot(session: Client): ByProjectKeyRequestBuilder {
   const apiRoot = createApiBuilderFromCtpClient(session).withProjectKey({
@@ -46,6 +46,8 @@ export function login(
   email: string,
   password: string,
 ): Promise<AuthenticationResult> {
+  localStorage.removeItem(localStorageAnonymousId);
+
   return apiRoot
     .me()
     .login()
@@ -57,9 +59,10 @@ export function login(
       },
     })
     .execute()
-    .then(() => {
+    .then((response) => {
       const apiBuilder = createAuthorizedApiBuilder(email, password);
       apiBuilder.get().execute();
+      localStorage.setItem(localStorageCartsId, response.body.cart?.id || '');
       return { success: true, apiBuilder: apiBuilder };
     })
     .catch((error) => {
@@ -105,6 +108,7 @@ export function refreshUser(): AuthenticationResult {
 
 export function logout(): AuthenticationResult {
   localStorage.removeItem(localStorageTokenKey);
+  localStorage.removeItem(localStorageCartsId);
 
   return { success: true, apiBuilder: createAnonymousApiBuilder() };
 }

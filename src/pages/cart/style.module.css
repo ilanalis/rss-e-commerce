@@ -1,0 +1,136 @@
+.emptyCartContainer {
+  width: 100%;
+  padding: 20px 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.bgImage {
+  width: 300px;
+  height: 320px;
+}
+
+span {
+  text-align: center;
+  color: var(--dark-blue-text);
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.navLink {
+  padding: 12px 50px;
+  margin: 0;
+  color: var(--light-text);
+  background-color: var(--orange-bg);
+  border-radius: 6px;
+  transition: all 0.5s;
+  border-color: transparent;
+  outline: none;
+}
+
+.cartContainer {
+  display: flex;
+  padding: 15px 5px;
+  gap: 20px;
+}
+
+.header {
+  font-size: 2rem;
+}
+
+.productItem {
+  position: relative;
+  display: flex;
+  gap: 10px;
+}
+
+.productItem::after {
+  content: '';
+  position: absolute;
+  top: 105%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgb(115 115 141 / 30%);
+}
+
+.imgWrapper {
+  position: relative;
+  height: 200px;
+  min-width: 300px;
+  /* max-width: 400px; */
+}
+
+.productImg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainInfo {
+  flex: 1 0 auto;
+}
+
+.productName {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.totalCostBlock {
+  display: flex;
+  gap: 10px;
+}
+
+.productsList {
+  flex: 0 0 70%;
+}
+
+.priceBlock {
+  width: 100%;
+}
+
+.priceBlockContainer {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+  background-color: var(--light-gray-bg);
+}
+
+@media (max-width: 840px) {
+  .cartContainer {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 656px) {
+  .productItem {
+    align-items: center;
+    flex-direction: column;
+  }
+  .productName {
+    margin-bottom: 7px;
+  }
+  .productPrice {
+    display: inline-block;
+    margin-bottom: 15px;
+  }
+  .totalCostBlock {
+    gap: 6px;
+    align-items: start;
+    flex-direction: column;
+  }
+}
