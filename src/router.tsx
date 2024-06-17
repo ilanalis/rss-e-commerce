@@ -13,6 +13,7 @@ import ProtectedRoute from './components/protectedRoute';
 import PublicRoute from './components/publicRoute';
 import { CategoryId, Routes } from './utils/const';
 import ProductList from './components/product-list';
+import ProductDetail from './pages/product-detail';
 
 export const router = createBrowserRouter([
   {
@@ -111,6 +112,16 @@ export const router = createBrowserRouter([
       {
         path: Routes.BUSINESS,
         element: <ProductList categoryId={CategoryId.BUSINESS} />,
+      },
+    ],
+  },
+  {
+    path: Routes.CATALOG,
+    element: <Layout />,
+    children: [
+      {
+        path: Routes.PRODUCT_DETAIL,
+        element: <ProductDetail />,
       },
     ],
   },

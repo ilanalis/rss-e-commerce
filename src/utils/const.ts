@@ -11,6 +11,7 @@ export const Routes = {
   DESIGN: '/catalog/design',
   MARKETING: '/catalog/marketing',
   BUSINESS: '/catalog/business',
+  PRODUCT_DETAIL: '/catalog/:category/:productId',
 };
 
 export const localStorageTokenKey = 'userTokenDDS';
