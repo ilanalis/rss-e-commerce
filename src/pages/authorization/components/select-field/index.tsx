@@ -1,6 +1,5 @@
-import styles from '@pages/authorization/style.module.css';
-
 import { FC } from 'react';
+import { Styles } from '../input-field';
 
 interface SelectFieldProps {
   labelTitle: string;
@@ -8,7 +7,9 @@ interface SelectFieldProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: { value: string; labelTitle: string }[];
+  styles: Styles;
   error?: string;
+  isDisabled?: boolean;
 }
 
 const SelectField: FC<SelectFieldProps> = ({
@@ -18,6 +19,8 @@ const SelectField: FC<SelectFieldProps> = ({
   onChange,
   options,
   error,
+  styles,
+  isDisabled,
 }) => (
   <div className={styles.fieldContainer}>
     <label htmlFor={name}>{labelTitle}</label>
@@ -27,6 +30,7 @@ const SelectField: FC<SelectFieldProps> = ({
       name={name}
       value={value}
       onChange={onChange}
+      disabled={isDisabled}
     >
       {options.map((option) => (
         <option key={option.value} value={option.value}>

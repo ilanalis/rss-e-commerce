@@ -15,6 +15,7 @@ export enum inputNames {
   defaultBilling = 'defaultBilling',
   defaultShipping = 'defaultShipping',
   billingAddress = 'billingAddress',
+  newPassword = 'newPassword',
 }
 
 export const COUNTRY_OPTIONS = [
@@ -28,6 +29,7 @@ const DEFAULT_COUNTRY_CODE = COUNTRY_OPTIONS[0].value;
 
 export const initialRegistrationData = Object.fromEntries(
   Object.values(inputNames).map((inputName) => {
+    if (inputName === 'newPassword') return [];
     if (inputName === inputNames.billingCountry || inputName === inputNames.shippingCountry) {
       return [inputName, DEFAULT_COUNTRY_CODE];
     }

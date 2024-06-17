@@ -3,14 +3,14 @@ import styles from './header.module.css';
 
 export const siteNavItems = [
   {
-    title: 'Courses',
-    route: Routes.COURSES,
-    icon: styles.coursesIcon
+    title: 'Catalog',
+    route: Routes.CATALOG,
+    icon: styles.coursesIcon,
   },
   {
     title: 'About',
-    route: Routes.ABOUT
-  }
+    route: Routes.ABOUT,
+  },
 ];
 
 export const userNavItems = {

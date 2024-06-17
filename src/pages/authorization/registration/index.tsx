@@ -158,6 +158,7 @@ const RegistrationForm: FC = () => {
         onChange={handleChange}
         error={errors[inputNames.email]}
         autoComplete={`user-${inputNames.email}`}
+        styles={styles}
       />
       <div className={styles.fieldContainer}>
         <label>Password:</label>
@@ -178,6 +179,7 @@ const RegistrationForm: FC = () => {
         onChange={handleChange}
         error={errors[inputNames.firstName]}
         autoComplete={`user-${inputNames.firstName}`}
+        styles={styles}
       />
       <InputField
         labelTitle="Last Name"
@@ -187,6 +189,7 @@ const RegistrationForm: FC = () => {
         onChange={handleChange}
         error={errors[inputNames.lastName]}
         autoComplete={`user-${inputNames.lastName}`}
+        styles={styles}
       />
       <InputField
         labelTitle="Date of Birth"
@@ -196,6 +199,7 @@ const RegistrationForm: FC = () => {
         onChange={handleChange}
         error={errors[inputNames.dateOfBirth]}
         autoComplete={`user-${inputNames.dateOfBirth}`}
+        styles={styles}
       />
 
       <fieldset>
@@ -207,6 +211,7 @@ const RegistrationForm: FC = () => {
           value={values[inputNames.shippingCountry]}
           onChange={changePostalCode}
           error={errors[inputNames.shippingCountry]}
+          styles={styles}
         />
         <InputField
           labelTitle="Postal Code"
@@ -215,6 +220,7 @@ const RegistrationForm: FC = () => {
           value={values[inputNames.shippingPostalCode]}
           onChange={(e) => handleChange(e, values[inputNames.shippingCountry])}
           error={errors[inputNames.shippingPostalCode]}
+          styles={styles}
         />
         <InputField
           labelTitle="City"
@@ -223,6 +229,7 @@ const RegistrationForm: FC = () => {
           value={values[inputNames.shippingCity]}
           onChange={handleChange}
           error={errors[inputNames.shippingCity]}
+          styles={styles}
         />
         <InputField
           labelTitle="Street"
@@ -231,6 +238,7 @@ const RegistrationForm: FC = () => {
           value={values[inputNames.shippingStreet]}
           onChange={handleChange}
           error={errors[inputNames.shippingStreet]}
+          styles={styles}
         />
         <div className={styles.checkboxContainer}>
           <input
@@ -260,6 +268,7 @@ const RegistrationForm: FC = () => {
           value={values[inputNames.billingCountry]}
           onChange={changePostalCode}
           error={errors[inputNames.billingCountry]}
+          styles={styles}
         />
         <InputField
           labelTitle="Postal Code"
@@ -268,6 +277,7 @@ const RegistrationForm: FC = () => {
           value={values[inputNames.billingPostalCode]}
           onChange={(e) => handleChange(e, values[inputNames.billingCountry])}
           error={errors[inputNames.billingPostalCode]}
+          styles={styles}
         />
         <InputField
           labelTitle="City"
@@ -276,6 +286,7 @@ const RegistrationForm: FC = () => {
           value={values[inputNames.billingCity]}
           onChange={handleChange}
           error={errors[inputNames.billingCity]}
+          styles={styles}
         />
         <InputField
           labelTitle="Street"
@@ -284,6 +295,7 @@ const RegistrationForm: FC = () => {
           value={values[inputNames.billingStreet]}
           onChange={handleChange}
           error={errors[inputNames.billingStreet]}
+          styles={styles}
         />
         <div className={styles.checkboxContainer}>
           <input type="checkbox" id={inputNames.defaultBilling} name={inputNames.defaultBilling} />

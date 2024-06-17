@@ -12,6 +12,7 @@ import {
 const validationRules = {
   email: validateEmail,
   password: validatePassword,
+  newPassword: validatePassword,
   firstName: validateFirstName,
   lastName: validateLastName,
   dateOfBirth: validateDateOfBirth,

@@ -1,0 +1,32 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5rem;
+  width: 100%;
+  color: var(--dark-text);
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  border: 1px solid var(--dark-text);
+  border-radius: 10px;
+  transition: all 0.5s;
+}
+
+.img {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+@media (width <= 330px) {
+  .card {
+    font-size: 1.5rem;
+  }
+}
+
+@media (pointer: fine) {
+  .card:hover {
+    scale: 1.05;
+    box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
+  }
+}
