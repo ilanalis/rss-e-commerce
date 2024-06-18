@@ -7,6 +7,7 @@ import Breadcrumbs from '../breadcrumbs';
 import Sorting from '../sorting';
 import Filter from '@components/filter';
 import Search from '@components/search';
+import Paginator from '@components/paginator';
 
 type ProductListProps = {
   categoryId:
@@ -22,6 +23,8 @@ function ProductList({ categoryId }: ProductListProps) {
   const [querySort, setQuerySort] = useState({});
   const [queryFilter, setQueryFilter] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string[]>([]);
+  const [offset, setOffset] = useState(0);
+  const [totalProducts, setTotalProducts] = useState(0);
 
   const { apiRoot } = useApiRootContext();
 
@@ -32,7 +35,8 @@ function ProductList({ categoryId }: ProductListProps) {
         .search()
         .get({
           queryArgs: {
-            limit: 30,
+            limit: 6,
+            offset: offset,
             'filter.query': [`categories.id:"${categoryId}"`, ...queryFilter],
             ...querySort,
             'text.en-GB': [...searchQuery],
@@ -41,14 +45,16 @@ function ProductList({ categoryId }: ProductListProps) {
         .execute()
         .then((response) => {
           const products = response.body.results;
-          if (products) {
-            setProducts(products);
+          setTotalProducts(response.body.total!);
+          if (!products) {
+            return;
           }
+          setProducts(products);
         })
         .catch((error) => {
           setError(error);
         });
-  }, [apiRoot, categoryId, querySort, queryFilter, searchQuery]);
+  }, [apiRoot, categoryId, querySort, queryFilter, searchQuery, offset]);
 
   return (
     <div className={styles.catalog}>
@@ -61,40 +67,51 @@ function ProductList({ categoryId }: ProductListProps) {
         <aside>
           <Filter setFilter={setQueryFilter} />
         </aside>
-        <div className={styles.productList}>
-          {!products.length && 'No products'}
-          {products &&
-            products.map((product) => {
-              const id = product.id;
-              const imgSrc =
-                product.masterVariant.assets && product.masterVariant.assets[0].sources[0].uri;
-              const title = product.name['en-GB'];
-              const level =
-                product.masterVariant.attributes && product.masterVariant.attributes[0].value.label;
-              const duration =
-                product.masterVariant.attributes && product.masterVariant.attributes[1].value;
-              const price =
-                ((product.masterVariant.prices &&
-                  product.masterVariant.prices[0].value.centAmount) ||
-                  0) / 100;
-              const finalPrice =
-                ((product.masterVariant.prices &&
-                  product.masterVariant.prices[0].discounted?.value.centAmount) ||
-                  0) / 100;
-              return (
-                <ProductCardMin
-                  key={id}
-                  id={id}
-                  imgSrc={imgSrc || ''}
-                  title={title}
-                  price={price}
-                  finalPrice={finalPrice}
-                  level={level}
-                  duration={duration}
-                />
-              );
-            })}
-          {error && error}
+        <div className={styles.productWrapper}>
+          <div className={styles.productList}>
+            {!products.length && 'No products'}
+            {products &&
+              products.map((product) => {
+                const id = product.id;
+                const imgSrc =
+                  product.masterVariant.assets && product.masterVariant.assets[0].sources[0].uri;
+                const title = product.name['en-GB'];
+                const level =
+                  product.masterVariant.attributes &&
+                  product.masterVariant.attributes[0].value.label;
+                const duration =
+                  product.masterVariant.attributes && product.masterVariant.attributes[1].value;
+                const price =
+                  ((product.masterVariant.prices &&
+                    product.masterVariant.prices[0].value.centAmount) ||
+                    0) / 100;
+                const finalPrice =
+                  ((product.masterVariant.prices &&
+                    product.masterVariant.prices[0].discounted?.value.centAmount) ||
+                    0) / 100;
+                return (
+                  <ProductCardMin
+                    key={id + title}
+                    id={id}
+                    imgSrc={imgSrc || ''}
+                    title={title}
+                    price={price}
+                    finalPrice={finalPrice}
+                    level={level}
+                    duration={duration}
+                  />
+                );
+              })}
+            {error && error}
+          </div>
+          <Paginator
+            totalItemsCount={totalProducts}
+            pageSize={6}
+            portionSize={5}
+            onPageChanged={(num: number) => {
+              setOffset((num - 1) * 6);
+            }}
+          />
         </div>
       </div>
     </div>
