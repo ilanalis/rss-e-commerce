@@ -12,6 +12,8 @@ const Cart: FC = () => {
   const [isCartEmpty, setIsCartEmpty] = useState(true);
   const [products, setProducts] = useState<LineItem[]>([]);
   const [cart, setCart] = useState<CartType | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const { apiRoot } = useApiRootContext();
 
   useEffect(() => {
@@ -26,6 +28,7 @@ const Cart: FC = () => {
 
       if (response?.success) {
         setIsCartEmpty(true);
+        setIsModalOpen(false);
       }
     }
   }
@@ -54,12 +57,32 @@ const Cart: FC = () => {
               <span>Total cost:</span>
               <span>{cart?.totalPrice.centAmount && cart?.totalPrice.centAmount / 100}$</span>
             </div>
-            <button onClick={clearShoppingCart} className={styles.clearCartBtn}>
+            <button onClick={() => setIsModalOpen(true)} className={styles.clearCartBtn}>
               Clear shopping cart
             </button>
           </div>
         </div>
       )}
+      {isModalOpen ? (
+        <div className={styles.modal}>
+          <div className={styles.modalContainer}>
+            <span className={styles.modalText}>
+              Are you sure you want to clear the shopping cart?
+            </span>
+            <div className={styles.buttonsBlock}>
+              <button
+                className={cn(styles.modalButton, styles.cancelButton)}
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button onClick={clearShoppingCart} className={styles.modalButton}>
+                Ok
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
