@@ -1,6 +1,6 @@
 import { LineItem, Cart as CartType } from '@commercetools/platform-sdk';
 import styles from '../style.module.css';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import trashIcon from '../../../assets/trash.png';
 import { changeProductQuantity } from '@/utils/api/cart-api';
 import { useApiRootContext } from '@/contexts/useApiRootContext';
@@ -15,6 +15,7 @@ interface ProductItemProps {
 
 const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setIsCartEmpty }) => {
   const { apiRoot } = useApiRootContext();
+  const [isQuantityChanging, setIsQuantityChanging] = useState(false);
 
   async function removeProductFromCart() {
     if (!apiRoot) return;
@@ -36,6 +37,33 @@ const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setI
     return price;
   }
 
+  async function changeQuantity(modifier: string) {
+    if (!apiRoot) return;
+    setIsQuantityChanging(true);
+
+    if (modifier === '+') {
+      const response = await changeProductQuantity(
+        apiRoot,
+        product.productId,
+        product.quantity + 1,
+      );
+      if (response?.success) {
+        fetchProductsList({ apiRoot, setCart, setProducts, setIsCartEmpty });
+        setIsQuantityChanging(false);
+      }
+    } else {
+      const response = await changeProductQuantity(
+        apiRoot,
+        product.productId,
+        product.quantity - 1,
+      );
+      if (response?.success) {
+        fetchProductsList({ apiRoot, setCart, setProducts, setIsCartEmpty });
+        setIsQuantityChanging(false);
+      }
+    }
+  }
+
   return (
     <div className={styles.productItem}>
       <div className={styles.imgWrapper}>
@@ -52,9 +80,25 @@ const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setI
         </div>
         <div className={styles.totalCostWrapper}>
           <div className={styles.totalCostBlock}>
-            <div className={styles.quantity}>
+            <div className={styles.quantityBlock}>
               <span>quantity:</span>
-              <span>{product.quantity}</span>
+              <div className={styles.controlQuantity}>
+                <button
+                  disabled={product.quantity === 1 || isQuantityChanging}
+                  onClick={() => changeQuantity('-')}
+                  className={styles.changeQntBtn}
+                >
+                  -
+                </button>
+                <span className={styles.quantity}>{product.quantity}</span>
+                <button
+                  disabled={isQuantityChanging}
+                  onClick={() => changeQuantity('+')}
+                  className={styles.changeQntBtn}
+                >
+                  +
+                </button>
+              </div>
             </div>
             <div className={styles.totalCost}>
               <span>total cost:</span>
@@ -62,7 +106,11 @@ const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setI
             </div>
           </div>
 
-          <button onClick={removeProductFromCart} className={styles.iconWrapper}>
+          <button
+            disabled={isQuantityChanging}
+            onClick={removeProductFromCart}
+            className={styles.iconWrapper}
+          >
             <img className={styles.icon} src={trashIcon} alt="" />
           </button>
         </div>

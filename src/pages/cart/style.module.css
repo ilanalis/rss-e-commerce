@@ -33,6 +33,7 @@ span {
 
 .cartContainer {
   display: flex;
+  flex-direction: column;
   padding: 15px 5px;
   gap: 20px;
   width: 100%;
@@ -107,6 +108,10 @@ span {
   transition: all 0.3s ease;
 }
 
+.iconWrapper:disabled {
+  pointer-events: none;
+}
+
 .icon {
   border-radius: 0;
 }
@@ -123,13 +128,35 @@ span {
 }
 
 .totalCost,
-.quantity {
+.quantityBlock {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
-.productsList {
-  flex: 0 0 70%;
+.controlQuantity {
+  display: flex;
+}
+
+.quantity {
+  margin: 0 5px;
+}
+
+.changeQntBtn {
+  width: 25px;
+  height: 25px;
+  background-color: transparent;
+  border: 1px solid var(--dark-blue-text);
+  color: var(--dark-blue-text);
+  outline: none;
+  border-radius: 9px;
+  transition: all 0.3s ease;
+}
+
+.changeQntBtn:disabled {
+  pointer-events: none;
+  border: 1px solid rgb(218 211 211);
+  color: rgb(218 211 211);
 }
 
 .cartInfoBlock {
@@ -137,7 +164,7 @@ span {
 }
 
 .priceBlock {
-  width: 100%;
+  min-width: 320px;
   padding: 15px;
   margin-bottom: 20px;
   display: flex;
@@ -208,7 +235,11 @@ span {
   }
 
   .cancelButton:hover {
-    background-color: rgb(105, 103, 103);
+    background-color: rgb(105 103 103);
+  }
+
+  .changeQntBtn:hover {
+    background-color: rgb(190 182 182);
   }
 
   .clearCartBtn:active,
@@ -217,7 +248,11 @@ span {
   }
 
   .cancelButton:active {
-    background-color: rgb(78, 76, 76);
+    background-color: rgb(78 76 76);
+  }
+
+  .changeQntBtn:active {
+    background-color: rgb(150 143 143);
   }
 
   .iconWrapper:hover {
@@ -257,7 +292,7 @@ span {
   }
 
   .totalCost,
-  .quantity {
+  .quantityBlock {
     display: flex;
     flex-direction: row;
     gap: 7px;
