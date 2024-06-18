@@ -35,6 +35,7 @@ span {
   display: flex;
   padding: 15px 5px;
   gap: 20px;
+  width: 100%;
 }
 
 .header {
@@ -45,6 +46,7 @@ span {
   position: relative;
   display: flex;
   gap: 10px;
+  margin-bottom: 30px;
 }
 
 .productItem::after {
@@ -57,13 +59,15 @@ span {
   background-color: rgb(115 115 141 / 30%);
 }
 
-.imgWrapper {
+.imgWrapper,
+.iconWrapper {
   position: relative;
   height: 200px;
   min-width: 300px;
 }
 
-.productImg {
+.productImg,
+.icon {
   position: absolute;
   left: 0;
   top: 0;
@@ -76,6 +80,7 @@ span {
 .productInfo {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .mainInfo {
@@ -83,14 +88,45 @@ span {
 }
 
 .productName {
+  margin: 0;
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 15px;
+  text-align: start;
+}
+
+.iconWrapper {
+  display: flex;
+
+  margin-left: 7px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.icon {
+  border-radius: 0;
+}
+
+.totalCostWrapper {
+  display: flex;
 }
 
 .totalCostBlock {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 20px;
+  flex: 1 0 auto;
+}
+
+.totalCost,
+.quantity {
+  display: flex;
+  flex-direction: column;
 }
 
 .productsList {
@@ -130,6 +166,12 @@ span {
   .clearCartBtn:active {
     background: #d99d00;
   }
+  .iconWrapper:hover {
+    background-color: rgb(202, 198, 198);
+  }
+  .iconWrapper:active {
+    background-color: rgb(156, 153, 153);
+  }
 }
 
 @media (width <= 840px) {
@@ -157,5 +199,11 @@ span {
     gap: 6px;
     align-items: start;
     flex-direction: column;
+  }
+  .totalCost,
+  .quantity {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
   }
 }
