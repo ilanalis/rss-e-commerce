@@ -1,3 +1,4 @@
+import { useCartContext } from '@/contexts/useCartContext';
 import styles from './nav-list.module.css';
 import cn from 'classnames';
 import { NavLink } from 'react-router-dom';
@@ -6,6 +7,7 @@ type NavItem = {
   title: string;
   route?: string;
   icon?: string;
+  data?: string;
   clickHandler?: () => void;
 };
 
@@ -19,11 +21,13 @@ function NavList({ theme, nav, items }: NavListProps) {
   const navListClass = `${nav}Nav`;
   const navLinkClass = `${nav}Nav__link`;
 
+  const { cartProductsQuantity } = useCartContext();
+
   return (
     <ul className={cn(styles.navList, styles[navListClass], styles[theme])}>
       {items.map((item, i) => {
         return (
-          <li key={item.title + i} className={styles.navItem}>
+          <li key={item.title + i} className={styles.navItem} data-btn-type={item.data}>
             {item.clickHandler ? (
               <button
                 className={cn(styles.logoutButton, styles.userNav__link)}
@@ -42,6 +46,10 @@ function NavList({ theme, nav, items }: NavListProps) {
                 >
                   {item.icon && <i className={cn(styles.icon, item.icon)}></i>}
                   {item.title}
+
+                  {cartProductsQuantity && item.data ? (
+                    <div className={styles.productsQuantity}>{cartProductsQuantity}</div>
+                  ) : null}
                 </NavLink>
               )
             )}

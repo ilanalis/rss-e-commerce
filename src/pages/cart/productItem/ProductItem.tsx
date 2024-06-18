@@ -5,6 +5,7 @@ import trashIcon from '../../../assets/trash.png';
 import { changeProductQuantity } from '@/utils/api/cart-api';
 import { useApiRootContext } from '@/contexts/useApiRootContext';
 import { fetchProductsList } from '../config';
+import { useCartContext } from '@/contexts/useCartContext';
 
 interface ProductItemProps {
   product: LineItem;
@@ -15,13 +16,14 @@ interface ProductItemProps {
 
 const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setIsCartEmpty }) => {
   const { apiRoot } = useApiRootContext();
+  const { setCartProductsQuantity } = useCartContext();
   const [isQuantityChanging, setIsQuantityChanging] = useState(false);
 
   async function removeProductFromCart() {
     if (!apiRoot) return;
     const response = await changeProductQuantity(apiRoot, product.productId, 0);
     if (response?.success) {
-      fetchProductsList({ apiRoot, setCart, setProducts, setIsCartEmpty });
+      fetchProductsList({ apiRoot, setCart, setProducts, setIsCartEmpty, setCartProductsQuantity });
     }
   }
 
@@ -48,7 +50,13 @@ const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setI
         product.quantity + 1,
       );
       if (response?.success) {
-        fetchProductsList({ apiRoot, setCart, setProducts, setIsCartEmpty });
+        fetchProductsList({
+          apiRoot,
+          setCart,
+          setProducts,
+          setIsCartEmpty,
+          setCartProductsQuantity,
+        });
         setIsQuantityChanging(false);
       }
     } else {
@@ -58,7 +66,13 @@ const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setI
         product.quantity - 1,
       );
       if (response?.success) {
-        fetchProductsList({ apiRoot, setCart, setProducts, setIsCartEmpty });
+        fetchProductsList({
+          apiRoot,
+          setCart,
+          setProducts,
+          setIsCartEmpty,
+          setCartProductsQuantity,
+        });
         setIsQuantityChanging(false);
       }
     }

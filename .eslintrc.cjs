@@ -23,6 +23,7 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'react-hooks/exhaustive-deps': 'off',
   },
   settings: {
     ...require('./config/eslint-settings.cjs')

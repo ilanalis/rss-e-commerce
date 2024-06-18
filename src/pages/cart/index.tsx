@@ -7,6 +7,7 @@ import { Cart as CartType, LineItem } from '@commercetools/platform-sdk';
 import ProductItem from './productItem/ProductItem';
 import cn from 'classnames';
 import { fetchProductsList } from './config';
+import { useCartContext } from '@/contexts/useCartContext';
 
 const Cart: FC = () => {
   const [isCartEmpty, setIsCartEmpty] = useState(true);
@@ -15,12 +16,13 @@ const Cart: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { apiRoot } = useApiRootContext();
+  const { setCartProductsQuantity } = useCartContext();
 
   useEffect(() => {
     if (apiRoot) {
-      fetchProductsList({ apiRoot, setProducts, setIsCartEmpty, setCart });
+      fetchProductsList({ apiRoot, setProducts, setIsCartEmpty, setCart, setCartProductsQuantity });
     }
-  }, [apiRoot]);
+  }, [apiRoot, setCartProductsQuantity]);
 
   async function clearShoppingCart() {
     if (apiRoot) {
@@ -29,6 +31,7 @@ const Cart: FC = () => {
       if (response?.success) {
         setIsCartEmpty(true);
         setIsModalOpen(false);
+        setCartProductsQuantity(0);
       }
     }
   }
