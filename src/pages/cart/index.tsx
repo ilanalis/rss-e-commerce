@@ -1,14 +1,14 @@
 import styles from './style.module.css';
 import { FC, useEffect, useState } from 'react';
 import EmptyCart from '@pages/cart/emptyCart/EmptyCart';
-import { getCartProducts } from '@/utils/api/cart-api';
+import { getCartProducts, removeAllProductsFromCart } from '@/utils/api/cart-api';
 import { useApiRootContext } from '@/contexts/useApiRootContext';
 import { Cart as CartType, LineItem } from '@commercetools/platform-sdk';
 import ProductItem from './productItem/ProductItem';
 import cn from 'classnames';
 
 const Cart: FC = () => {
-  const [isCartEmpty, setIsCartEmpty] = useState(false);
+  const [isCartEmpty, setIsCartEmpty] = useState(true);
   const [products, setProducts] = useState<LineItem[]>([]);
   const [cart, setCart] = useState<CartType>();
   const { apiRoot } = useApiRootContext();
@@ -17,18 +17,31 @@ const Cart: FC = () => {
     const fetchProductsList = async () => {
       if (apiRoot) {
         const response = await getCartProducts(apiRoot);
+
         if (response && response.success && response.products) {
           if (response.products.length === 0) {
             setIsCartEmpty(true);
-            return;
+          } else {
+            setProducts(response.products);
+
+            if (response.cart) setCart(response.cart);
+            setIsCartEmpty(false);
           }
-          setProducts(response.products);
-          if (response.cart) setCart(response.cart);
         }
       }
     };
     fetchProductsList();
   }, [apiRoot]);
+
+  async function clearShoppingCart() {
+    if (apiRoot) {
+      const response = await removeAllProductsFromCart(apiRoot, products);
+
+      if (response?.success) {
+        setIsCartEmpty(true);
+      }
+    }
+  }
 
   return (
     <div className={cn('container', styles.cartContainer)}>
@@ -43,11 +56,14 @@ const Cart: FC = () => {
               <ProductItem key={product.id} product={product} />
             ))}
           </div>
-          <div className={styles.priceBlock}>
-            <div className={styles.priceBlockContainer}>
+          <div className={styles.cartInfoBlock}>
+            <div className={styles.priceBlock}>
               <span>Total cost:</span>
               <span>{cart?.totalPrice.centAmount && cart?.totalPrice.centAmount / 100}$</span>
             </div>
+            <button onClick={clearShoppingCart} className={styles.clearCartBtn}>
+              Clear shopping cart
+            </button>
           </div>
         </div>
       )}
