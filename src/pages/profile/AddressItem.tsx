@@ -33,7 +33,7 @@ interface AddressItemProps {
 }
 
 const AddressItem: FC<AddressItemProps> = ({
-  address = { country: 'US', city: '', streetName: '', postalCode: '' },
+  address,
   isDefaultShipping,
   isDefaultBilling,
   addressId,
@@ -45,6 +45,7 @@ const AddressItem: FC<AddressItemProps> = ({
   const [localIsDefaultShipping, setLocalIsDefaultShipping] = useState(isDefaultShipping);
   const [localIsDefaultBilling, setLocalIsDefaultBilling] = useState(isDefaultBilling);
   const { apiRoot } = useApiRootContext();
+
   const initialState = {
     billingCountry: 'US',
     billingCity: '',
@@ -66,8 +67,7 @@ const AddressItem: FC<AddressItemProps> = ({
     }
     setLocalIsDefaultShipping(isDefaultShipping);
     setLocalIsDefaultBilling(isDefaultBilling);
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDefaultBilling, isDefaultShipping]);
+  }, [isDefaultBilling, isDefaultShipping, changeValues, address]);
 
   const changePostalCode = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;

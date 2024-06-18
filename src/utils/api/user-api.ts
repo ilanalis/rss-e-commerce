@@ -1,15 +1,20 @@
 import {
   BaseAddress,
   ByProjectKeyRequestBuilder,
+  Cart,
+  LineItem,
   MyCustomerUpdateAction,
 } from '@commercetools/platform-sdk';
 import { login, logout } from './commercetools-api';
 
-interface Response {
+export interface Response {
   success: boolean;
   errorMessage?: string;
   email?: string;
   apiRoot?: ByProjectKeyRequestBuilder;
+  products?: LineItem[];
+  cartId?: string;
+  cart?: Cart;
 }
 
 export function updatePersonalInfo(
