@@ -7,7 +7,7 @@ import { useApiRootContext } from '@/contexts/useApiRootContext';
 type AddProductProps = {
   id: string;
   selected: boolean;
-}
+};
 
 function AddProduct({ id, selected }: AddProductProps) {
   const [active, setActive] = useState(true);
@@ -28,12 +28,21 @@ function AddProduct({ id, selected }: AddProductProps) {
       return;
     }
 
-    setLoading(false)
+    setLoading(false);
     setActive(false);
-  }
+  };
 
   return (
-    <button onClick={clickHandler} className={cn(styles.button, { [styles.add]: active && !selected, [styles.loading]: loading })} disabled={selected}>{'+'}</button>
+    <button
+      onClick={clickHandler}
+      className={cn(styles.button, {
+        [styles.add]: active && !selected,
+        [styles.loading]: loading,
+      })}
+      disabled={selected}
+    >
+      {'+'}
+    </button>
   );
 }
 

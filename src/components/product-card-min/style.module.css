@@ -89,7 +89,9 @@
   border: none;
   background-color: var(--light-bg);
   opacity: 0.7;
-  transition: color,opacity  0.5s;
+  transition:
+    color,
+    opacity 0.5s;
 }
 
 .add:hover {
@@ -97,7 +99,6 @@
   opacity: 1;
 }
 
-.add:active { 
+.add:active {
   color: var(--dark-text);
 }
-  

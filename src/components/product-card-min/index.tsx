@@ -26,7 +26,7 @@ function ProductCardMin({
 }: ProductCardMinProps) {
   return (
     <div className={styles.productCard}>
-      <Link  to={`./${id}`}>
+      <Link to={`./${id}`}>
         {!!finalPrice && <span className={styles.discount}>%</span>}
         <div className={styles.imgWrapper}>
           <img className={styles.img} src={imgSrc} alt="" />
@@ -42,12 +42,14 @@ function ProductCardMin({
             </span>
           </div>
           <div className={styles.price}>
-            {!!finalPrice && <span className={styles.finalPrice}>{`${finalPrice.toFixed(2)}$`}</span>}
+            {!!finalPrice && (
+              <span className={styles.finalPrice}>{`${finalPrice.toFixed(2)}$`}</span>
+            )}
             <span className={cn({ [styles.oldPrice]: finalPrice })}>{`${price}$`}</span>
           </div>
         </div>
       </Link>
-      <AddProduct id={id} selected={selected}/>
+      <AddProduct id={id} selected={selected} />
     </div>
   );
 }

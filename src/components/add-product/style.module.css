@@ -13,9 +13,9 @@
   border: none;
   background-color: var(--light-bg);
   opacity: 0.7;
-  transition: color, opacity 0.5s;
-
-
+  transition:
+    color,
+    opacity 0.5s;
 }
 
 @media (pointer: fine) {
@@ -24,9 +24,9 @@
     opacity: 1;
     cursor: not-allowed;
   }
-  
+
   .add:hover {
-    color: rgb(255, 208, 0);
+    color: rgb(255 208 0);
     opacity: 1;
   }
 
@@ -47,6 +47,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
