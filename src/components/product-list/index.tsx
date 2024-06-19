@@ -8,6 +8,7 @@ import Sorting from '../sorting';
 import Filter from '@components/filter';
 import Search from '@components/search';
 import Paginator from '@components/paginator';
+import { getCartProducts } from '@/utils/api/cart-api';
 
 type ProductListProps = {
   categoryId:
@@ -19,6 +20,7 @@ type ProductListProps = {
 
 function ProductList({ categoryId }: ProductListProps) {
   const [products, setProducts] = useState<ProductProjection[]>([]);
+  const [productsCart, setProductsCart] = useState<string[]>([]);
   const [error, setError] = useState();
   const [querySort, setQuerySort] = useState({});
   const [queryFilter, setQueryFilter] = useState<string[]>([]);
@@ -27,6 +29,18 @@ function ProductList({ categoryId }: ProductListProps) {
   const [totalProducts, setTotalProducts] = useState(0);
 
   const { apiRoot } = useApiRootContext();
+
+  const fetchProductsList = async () => {
+    if (apiRoot) {
+      const response = await getCartProducts(apiRoot);
+      if (response && response.success && response.products) {
+        if (response.products.length) {
+          const productsCart = response.products.map((product) => product.productId);
+          setProductsCart(productsCart);
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     apiRoot &&
@@ -54,6 +68,8 @@ function ProductList({ categoryId }: ProductListProps) {
         .catch((error) => {
           setError(error);
         });
+    fetchProductsList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiRoot, categoryId, querySort, queryFilter, searchQuery, offset]);
 
   return (
@@ -99,6 +115,7 @@ function ProductList({ categoryId }: ProductListProps) {
                     finalPrice={finalPrice}
                     level={level}
                     duration={duration}
+                    selected={productsCart.includes(id)}
                   />
                 );
               })}
