@@ -58,7 +58,9 @@ const Cart: FC = () => {
           <div className={styles.cartInfoBlock}>
             <div className={styles.priceBlock}>
               <span>Total cost:</span>
-              <span>{cart?.totalPrice.centAmount && cart?.totalPrice.centAmount / 100}$</span>
+              <span>
+                {(cart?.totalPrice.centAmount && cart?.totalPrice.centAmount / 100)?.toFixed(2)}$
+              </span>
             </div>
             <button onClick={() => setIsModalOpen(true)} className={styles.clearCartBtn}>
               Clear shopping cart

@@ -18,13 +18,13 @@
     opacity 0.5s;
 }
 
-@media (pointer: fine) {
-  .button[disabled] {
-    color: var(--accent-color);
-    opacity: 1;
-    cursor: not-allowed;
-  }
+.button[disabled] {
+  color: var(--accent-color);
+  opacity: 1;
+  cursor: not-allowed;
+}
 
+@media (pointer: fine) {
   .add:hover {
     color: rgb(255 208 0);
     opacity: 1;

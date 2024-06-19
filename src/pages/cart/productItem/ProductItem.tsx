@@ -90,7 +90,7 @@ const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setI
       <div className={styles.productInfo}>
         <div className={styles.mainInfo}>
           <p className={styles.productName}>{product.name['en-GB']}</p>
-          <span className={styles.productPrice}>{getPrice()}$</span>
+          <span className={styles.productPrice}>{getPrice().toFixed(2)}$</span>
         </div>
         <div className={styles.totalCostWrapper}>
           <div className={styles.totalCostBlock}>
@@ -116,7 +116,7 @@ const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setI
             </div>
             <div className={styles.totalCost}>
               <span>total cost:</span>
-              <span>{product.quantity * getPrice()}$</span>
+              <span>{(product.quantity * getPrice()).toFixed(2)}$</span>
             </div>
           </div>
 
