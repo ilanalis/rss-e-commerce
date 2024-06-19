@@ -134,8 +134,8 @@ export async function changeProductQuantity(
   const lineItemId = await getLineItemId(apiRoot, productId);
 
   if (!lineItemId) {
-    addProductToLineItems(apiRoot, productId);
-    return;
+    const response = await addProductToLineItems(apiRoot, productId);
+    return response;
   }
 
   let cartId = getCartId();

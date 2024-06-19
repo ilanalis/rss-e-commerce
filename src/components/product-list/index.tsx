@@ -8,17 +8,19 @@ import Sorting from '../sorting';
 import Filter from '@components/filter';
 import Search from '@components/search';
 import Paginator from '@components/paginator';
+import { getCartProducts } from '@/utils/api/cart-api';
 
 type ProductListProps = {
   categoryId:
-    | 'c96ff3d0-1688-4913-90ae-a3056e259e68'
-    | '78db1a69-6023-44b5-8b3d-a8f294cdd335'
-    | 'dac8edad-bf16-4f56-859c-f364efde1c2a'
-    | '9f44fc3d-b2b9-4625-91e8-03934154b07d';
+  | 'c96ff3d0-1688-4913-90ae-a3056e259e68'
+  | '78db1a69-6023-44b5-8b3d-a8f294cdd335'
+  | 'dac8edad-bf16-4f56-859c-f364efde1c2a'
+  | '9f44fc3d-b2b9-4625-91e8-03934154b07d';
 };
 
 function ProductList({ categoryId }: ProductListProps) {
   const [products, setProducts] = useState<ProductProjection[]>([]);
+  const [productsCart, setProductsCart] = useState<string[]>([]);
   const [error, setError] = useState();
   const [querySort, setQuerySort] = useState({});
   const [queryFilter, setQueryFilter] = useState<string[]>([]);
@@ -27,6 +29,19 @@ function ProductList({ categoryId }: ProductListProps) {
   const [totalProducts, setTotalProducts] = useState(0);
 
   const { apiRoot } = useApiRootContext();
+
+  const fetchProductsList = async () => {
+    if (apiRoot) {
+      const response = await getCartProducts(apiRoot);
+      if (response && response.success && response.products) {
+        if (response.products.length) {
+          const productsCart = response.products.map(product => product.productId);
+          console.log(productsCart);
+          setProductsCart(productsCart);
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     apiRoot &&
@@ -54,6 +69,8 @@ function ProductList({ categoryId }: ProductListProps) {
         .catch((error) => {
           setError(error);
         });
+    fetchProductsList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiRoot, categoryId, querySort, queryFilter, searchQuery, offset]);
 
   return (
@@ -99,6 +116,7 @@ function ProductList({ categoryId }: ProductListProps) {
                     finalPrice={finalPrice}
                     level={level}
                     duration={duration}
+                    selected={productsCart.includes(id)}
                   />
                 );
               })}
