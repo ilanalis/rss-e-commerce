@@ -194,7 +194,7 @@ span {
   outline: none;
   border: none;
   color: white;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 5px rgb(0 0 0 / 50%);
   background: linear-gradient(90deg, #f7941d 0%, #27aae1 100%);
 }
 
@@ -370,10 +370,11 @@ span {
   }
 }
 
-@media (max-width: 372px) {
+@media (width <= 372px) {
   .priceBlock {
     min-width: 100%;
   }
+
   .codeInput {
     width: 100px;
   }
