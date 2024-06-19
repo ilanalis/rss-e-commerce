@@ -36,7 +36,6 @@ function ProductList({ categoryId }: ProductListProps) {
       if (response && response.success && response.products) {
         if (response.products.length) {
           const productsCart = response.products.map((product) => product.productId);
-          console.log(productsCart);
           setProductsCart(productsCart);
         }
       }

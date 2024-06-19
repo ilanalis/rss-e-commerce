@@ -20,7 +20,6 @@ function AddProduct({ id, selected }: AddProductProps) {
     setLoading(true);
     if (!apiRoot) return;
     const response = await changeProductQuantity(apiRoot, id, 1);
-    console.log(response);
     if (!response?.success) {
       setLoading(false);
       setActive(true);
