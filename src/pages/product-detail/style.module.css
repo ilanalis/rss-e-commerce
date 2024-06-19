@@ -76,10 +76,19 @@
   display: none;
 }
 
+.cartButton {
+  color: #ffa500;
+}
+
 @media (pointer: fine) {
   .thumbnail:hover,
-  .selectedImage:hover {
+  .selectedImage:hover,
+  .cartButton:hover {
     cursor: pointer;
+  }
+
+  .cartButton:disabled {
+    cursor: not-allowed;
   }
 }
 

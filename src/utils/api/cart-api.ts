@@ -51,10 +51,10 @@ export function createCart(apiRoot: ByProjectKeyRequestBuilder): Promise<Respons
     });
 }
 
-export function getCartProducts(apiRoot: ByProjectKeyRequestBuilder): Promise<Response> | Response {
+export function getCartProducts(apiRoot: ByProjectKeyRequestBuilder): Promise<Response> {
   const cartId = getCartId();
 
-  if (!cartId) return { success: true, products: [] };
+  if (!cartId) return Promise.resolve({ success: true, products: [] });
 
   return apiRoot
     .carts()
@@ -134,8 +134,8 @@ export async function changeProductQuantity(
   const lineItemId = await getLineItemId(apiRoot, productId);
 
   if (!lineItemId) {
-    addProductToLineItems(apiRoot, productId);
-    return;
+    const response = await addProductToLineItems(apiRoot, productId);
+    return response;
   }
 
   let cartId = getCartId();

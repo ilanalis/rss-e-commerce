@@ -2,38 +2,41 @@ import styles from './style.module.css';
 import cn from 'classnames';
 
 import { useApiRootContext } from '@/contexts/useApiRootContext';
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ProductData, mapProductProjectionToProduct } from './config';
+import { BUTTON_IDS, PRODUCT_QUANTITIES, ProductData, fetchData, isButtonId } from './config';
 import { Gallery, Item } from 'react-photoswipe-gallery';
 import 'photoswipe/dist/photoswipe.css';
+import { changeProductQuantity } from '@/utils/api/cart-api';
 
 const ProductDetail: FC = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
   const [error, setError] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>('');
   const [isGalleryOpen, setIsGalleryOpen] = useState<boolean>(false);
+  const [isProductInCart, setIsProductInCart] = useState<boolean>(false);
 
   const { apiRoot } = useApiRootContext();
   const { productId } = useParams<{ category: string; productId: string }>();
 
   useEffect(() => {
-    apiRoot &&
-      apiRoot
-        .products()
-        .withId({ ID: productId || '' })
-        .get()
-        .execute()
-        .then((response) => {
-          const productProjection = response.body;
-          const product = mapProductProjectionToProduct(productProjection);
-          setProduct(product);
-          setSelectedImage(product!.assets[0].url);
-        })
-        .catch((error) => {
-          console.error('Error retrieving product:', error);
+    if (apiRoot && productId) {
+      fetchData(apiRoot, productId).then((response) => {
+        const success = response.success;
+
+        if (success) {
+          const product = response.product;
+          const isProductInCart = response.isProductInCart;
+          if (product) {
+            setProduct(product);
+            setSelectedImage(product.assets[0].url);
+            setIsProductInCart(isProductInCart);
+          }
+        } else {
           setError(true);
-        });
+        }
+      });
+    }
   }, [apiRoot, productId]);
 
   const handleThumbnailClick = (url: string) => {
@@ -46,6 +49,26 @@ const ProductDetail: FC = () => {
 
   const handleGalleryClosed = () => {
     setIsGalleryOpen(false);
+  };
+
+  const handleCartButtonClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (e.target instanceof HTMLButtonElement) {
+      const buttonID = e.target.id;
+
+      if (isButtonId(buttonID) && apiRoot && product) {
+        const productQuantity = PRODUCT_QUANTITIES[buttonID];
+
+        changeProductQuantity(apiRoot, product.id, productQuantity).then((response) => {
+          if (response && response.success) {
+            if (buttonID === BUTTON_IDS.add) {
+              setIsProductInCart(true);
+            } else if (buttonID === BUTTON_IDS.remove) {
+              setIsProductInCart(false);
+            }
+          }
+        });
+      }
+    }
   };
 
   return (
@@ -118,6 +141,22 @@ const ProductDetail: FC = () => {
             ) : (
               <p className={styles.price}>${product.price.toFixed(2)}</p>
             )}
+            <button
+              id={BUTTON_IDS.add}
+              className={styles.cartButton}
+              disabled={isProductInCart}
+              onClick={(e) => handleCartButtonClicked(e)}
+            >
+              Add to Cart
+            </button>
+            <button
+              id={BUTTON_IDS.remove}
+              className={styles.cartButton}
+              disabled={!isProductInCart}
+              onClick={(e) => handleCartButtonClicked(e)}
+            >
+              Remove from Cart
+            </button>
           </div>
         </>
       )}

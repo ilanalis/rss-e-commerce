@@ -1,5 +1,12 @@
+import { getCartProducts } from '@/utils/api/cart-api';
 import { isNumber, isObject, isString } from '@/utils/type-guards';
-import { Asset, Attribute, Price, Product } from '@commercetools/platform-sdk';
+import {
+  Asset,
+  Attribute,
+  ByProjectKeyRequestBuilder,
+  Price,
+  Product,
+} from '@commercetools/platform-sdk';
 import { GalleryProps } from 'react-photoswipe-gallery';
 
 const LANGUAGE_KEY = 'en-GB';
@@ -19,6 +26,54 @@ export interface ProductData {
   duration: number;
   assets: AssetData[];
 }
+
+export interface DataResponse {
+  success: boolean;
+  product: ProductData | null;
+  isProductInCart: boolean;
+}
+
+export const fetchData = (
+  apiRoot: ByProjectKeyRequestBuilder,
+  productId: string,
+): Promise<DataResponse> => {
+  return apiRoot
+    .products()
+    .withId({ ID: productId || '' })
+    .get()
+    .execute()
+    .then(async (response) => {
+      const result: DataResponse = {
+        success: true,
+        product: null,
+        isProductInCart: false,
+      };
+
+      const productProjection = response.body;
+      const product = mapProductProjectionToProduct(productProjection);
+
+      result.product = product;
+
+      return getCartProducts(apiRoot).then((response) => {
+        if (response.success) {
+          const products = response.products ?? [];
+
+          if (product && products.some((productInCart) => productInCart.productId === product.id)) {
+            result.isProductInCart = true;
+          }
+        }
+        return result;
+      });
+    })
+    .catch((error) => {
+      console.error('Error retrieving product:', error);
+      return {
+        success: false,
+        product: null,
+        isProductInCart: false,
+      };
+    });
+};
 
 const containsPrice = (prices: Price[]): boolean =>
   isObject(prices[0]) &&
@@ -81,7 +136,7 @@ const getAssets = (assets: Asset[] | undefined): AssetData[] => {
   return [];
 };
 
-export const mapProductProjectionToProduct = (fetchedProduct: Product): ProductData | null => {
+const mapProductProjectionToProduct = (fetchedProduct: Product): ProductData => {
   const currentMasterData = fetchedProduct.masterData.current;
   const currentMasterVariant = currentMasterData.masterVariant;
 
@@ -102,3 +157,18 @@ export const galleryProps: GalleryProps = {
     padding: { top: 20, bottom: 40, left: 100, right: 100 },
   },
 };
+
+export const BUTTON_IDS = {
+  add: 'add',
+  remove: 'remove',
+};
+
+type ButtonIdType = keyof typeof BUTTON_IDS;
+
+export const PRODUCT_QUANTITIES: Record<ButtonIdType, number> = {
+  add: 1,
+  remove: 0,
+};
+
+export const isButtonId = (buttonID: string): buttonID is ButtonIdType =>
+  Object.values(BUTTON_IDS).some((existedButtonId) => buttonID === existedButtonId);
