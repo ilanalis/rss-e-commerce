@@ -53,6 +53,7 @@ const ProductDetail: FC = () => {
 
   const handleCartButtonClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (e.target instanceof HTMLButtonElement) {
+      e.target.disabled = true;
       const buttonID = e.target.id;
 
       if (isButtonId(buttonID) && apiRoot && product) {
@@ -141,22 +142,24 @@ const ProductDetail: FC = () => {
             ) : (
               <p className={styles.price}>${product.price.toFixed(2)}</p>
             )}
-            <button
-              id={BUTTON_IDS.add}
-              className={styles.cartButton}
-              disabled={isProductInCart}
-              onClick={(e) => handleCartButtonClicked(e)}
-            >
-              Add to Cart
-            </button>
-            <button
-              id={BUTTON_IDS.remove}
-              className={styles.cartButton}
-              disabled={!isProductInCart}
-              onClick={(e) => handleCartButtonClicked(e)}
-            >
-              Remove from Cart
-            </button>
+            <div className={styles.buttonsContainer}>
+              <button
+                id={BUTTON_IDS.add}
+                className={styles.cartButton}
+                disabled={isProductInCart}
+                onClick={(e) => handleCartButtonClicked(e)}
+              >
+                Add to Cart
+              </button>
+              <button
+                id={BUTTON_IDS.remove}
+                className={styles.cartButton}
+                disabled={!isProductInCart}
+                onClick={(e) => handleCartButtonClicked(e)}
+              >
+                Remove from Cart
+              </button>
+            </div>
           </div>
         </>
       )}
