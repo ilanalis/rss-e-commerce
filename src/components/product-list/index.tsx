@@ -69,7 +69,6 @@ function ProductList({ categoryId }: ProductListProps) {
           setError(error);
         });
     fetchProductsList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiRoot, categoryId, querySort, queryFilter, searchQuery, offset]);
 
   return (
