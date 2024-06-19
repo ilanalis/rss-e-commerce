@@ -61,6 +61,7 @@ span {
   position: relative;
   height: 200px;
   min-width: 300px;
+
   /* max-width: 400px; */
 }
 
@@ -110,24 +111,27 @@ span {
   background-color: var(--light-gray-bg);
 }
 
-@media (max-width: 840px) {
+@media (width <= 840px) {
   .cartContainer {
     flex-direction: column;
   }
 }
 
-@media (max-width: 656px) {
+@media (width <= 656px) {
   .productItem {
     align-items: center;
     flex-direction: column;
   }
+
   .productName {
     margin-bottom: 7px;
   }
+
   .productPrice {
     display: inline-block;
     margin-bottom: 15px;
   }
+
   .totalCostBlock {
     gap: 6px;
     align-items: start;
