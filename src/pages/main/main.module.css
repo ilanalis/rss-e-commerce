@@ -1,3 +1,30 @@
+.main {
+  padding: 8px 10px;
+}
+
+.discountCodesBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.discountBorderWrapper {
+  border-radius: 9px;
+  padding: 7px;
+  background: linear-gradient(90deg, #f7941d 0%, #27aae1 100%);
+}
+
+.discount {
+  border-radius: 7px;
+  background-color: white;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
 .navItem {
   margin-top: 2rem;
   border: 1px solid black;

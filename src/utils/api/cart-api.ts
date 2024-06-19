@@ -13,7 +13,7 @@ function getCartId() {
   return localStorage.getItem(localStorageCartsId);
 }
 
-function getCartVersion(
+export function getCartVersion(
   apiRoot: ByProjectKeyRequestBuilder,
   cartId: string,
 ): Promise<number | void> {
@@ -240,5 +240,112 @@ export async function removeAllProductsFromCart(
       console.log('Error removing all products from cart:', error);
 
       return { success: false, error };
+    });
+}
+
+export async function addDiscountCode(
+  apiRoot: ByProjectKeyRequestBuilder,
+  code: string,
+): Promise<Response | undefined> {
+  const cartId = getCartId();
+
+  if (!cartId) return;
+
+  const cartVersion = await getCartVersion(apiRoot, cartId);
+
+  if (!cartVersion) return;
+
+  return apiRoot
+    .carts()
+    .withId({ ID: cartId })
+    .post({
+      body: {
+        version: cartVersion,
+        actions: [{ action: 'addDiscountCode', code }],
+      },
+    })
+    .execute()
+    .then((response) => {
+      if (response.body) {
+        return { success: true, products: response.body.lineItems, cart: response.body };
+      } else {
+        console.log('error while adding discount code');
+
+        return { success: false };
+      }
+    })
+    .catch((error) => {
+      console.log('error while adding discount code:', error);
+
+      return { success: false, errorMessage: error.message };
+    });
+}
+
+export async function removeDiscountCode(
+  apiRoot: ByProjectKeyRequestBuilder,
+  discountId: string | undefined,
+): Promise<Response | undefined> {
+  const cartId = getCartId();
+
+  if (!cartId || !discountId) return;
+
+  const cartVersion = await getCartVersion(apiRoot, cartId);
+
+  if (!cartVersion) return;
+  return apiRoot
+    .carts()
+    .withId({ ID: cartId })
+    .post({
+      body: {
+        version: cartVersion,
+        actions: [
+          {
+            action: 'removeDiscountCode',
+            discountCode: { typeId: 'discount-code', id: discountId },
+          },
+        ],
+      },
+    })
+    .execute()
+    .then((response) => {
+      if (response.body) {
+        return { success: true, products: response.body.lineItems, cart: response.body };
+      } else {
+        console.log('error while removing discount code');
+
+        return { success: false };
+      }
+    })
+    .catch((error) => {
+      console.log('error while removing discount code:', error);
+
+      return { success: false, errorMessage: error };
+    });
+}
+
+export async function getDiscountName(
+  apiRoot: ByProjectKeyRequestBuilder,
+  discountId: string | undefined,
+): Promise<Response | undefined> {
+  if (!discountId) return;
+
+  return apiRoot
+    .discountCodes()
+    .withId({ ID: discountId })
+    .get()
+    .execute()
+    .then((response) => {
+      if (response.body) {
+        return { success: true, discountName: response.body.code };
+      } else {
+        console.log('error while getting discount code');
+
+        return { success: false };
+      }
+    })
+    .catch((error) => {
+      console.log('error while getting discount code:', error);
+
+      return { success: false, errorMessage: error };
     });
 }
