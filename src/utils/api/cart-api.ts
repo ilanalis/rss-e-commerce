@@ -1,4 +1,8 @@
-import { ByProjectKeyRequestBuilder, LineItem } from '@commercetools/platform-sdk';
+import {
+  ByProjectKeyRequestBuilder,
+  LineItem,
+  MyCartChangeLineItemQuantityAction,
+} from '@commercetools/platform-sdk';
 import { localStorageCartsId } from '../const';
 import { Response } from './user-api';
 
@@ -134,8 +138,8 @@ export async function changeProductQuantity(
   const lineItemId = await getLineItemId(apiRoot, productId);
 
   if (!lineItemId) {
-    addProductToLineItems(apiRoot, productId);
-    return;
+    const response = await addProductToLineItems(apiRoot, productId);
+    return response;
   }
 
   let cartId = getCartId();
@@ -171,12 +175,12 @@ export async function changeProductQuantity(
     })
     .execute()
     .then((response) => {
-      console.log('Product added to cart:', response.body);
+      console.log('Product quantity changed:', response.body);
 
       return { success: true };
     })
     .catch((error) => {
-      console.log('Error adding product to cart:', error);
+      console.log('Error changing product quantity in cart:', error);
 
       return { success: false, error };
     });
@@ -192,4 +196,49 @@ async function getLineItemId(apiRoot: ByProjectKeyRequestBuilder, productId: str
 
     if (lineItemId) return lineItemId.id;
   }
+}
+
+export async function removeAllProductsFromCart(
+  apiRoot: ByProjectKeyRequestBuilder,
+  products: LineItem[],
+): Promise<Response | undefined> {
+  const actions: MyCartChangeLineItemQuantityAction[] = [];
+  products.forEach((product) => {
+    const action: MyCartChangeLineItemQuantityAction = {
+      action: 'changeLineItemQuantity',
+      quantity: 0,
+      lineItemId: product.id,
+    };
+    actions.push(action);
+  });
+
+  const cartId = getCartId();
+
+  if (!cartId) return;
+
+  const cartVersion = await getCartVersion(apiRoot, cartId);
+
+  if (!cartVersion) return;
+
+  return apiRoot
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .post({
+      body: {
+        version: cartVersion,
+        actions,
+      },
+    })
+    .execute()
+    .then((response) => {
+      console.log('All products removed from cart:', response.body);
+
+      return { success: true };
+    })
+    .catch((error) => {
+      console.log('Error removing all products from cart:', error);
+
+      return { success: false, error };
+    });
 }

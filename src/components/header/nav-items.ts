@@ -19,6 +19,7 @@ export const userNavItems = {
       title: 'Basket',
       route: Routes.CART,
       icon: styles.basketIcon,
+      data: 'data-basket-btn',
     },
   ],
   loggedIn: [
