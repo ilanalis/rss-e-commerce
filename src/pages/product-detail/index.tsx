@@ -11,6 +11,8 @@ import { Gallery, Item } from 'react-photoswipe-gallery';
 import 'photoswipe/dist/photoswipe.css';
 import { ToastContainer } from 'react-toastify';
 import notify from '@/utils/notify';
+import { useCartContext } from '@/contexts/useCartContext';
+import { getCartProducts } from '@/utils/api/cart-api';
 
 const ProductDetail: FC = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
@@ -21,6 +23,7 @@ const ProductDetail: FC = () => {
 
   const { apiRoot } = useApiRootContext();
   const { productId } = useParams<{ category: string; productId: string }>();
+  const { setCartProductsQuantity } = useCartContext();
 
   useEffect(() => {
     if (apiRoot && productId) {
@@ -62,14 +65,24 @@ const ProductDetail: FC = () => {
       if (product) {
         button.disabled = true;
         tryChangeProductQuantity(apiRoot, product.id, buttonID)
-          .then((response) => {
-            if (response && response.success) {
+          .then(async (response) => {
+            if (response && response.success && apiRoot) {
               if (buttonID === BUTTON_IDS.add) {
                 setIsProductInCart(true);
+
                 notify('The product was added to the cart!');
               } else if (buttonID === BUTTON_IDS.remove) {
                 notify('The product was removed from the cart!');
                 setIsProductInCart(false);
+              }
+              const cartProductResponse = await getCartProducts(apiRoot);
+
+              if (
+                cartProductResponse &&
+                cartProductResponse.success &&
+                cartProductResponse.products
+              ) {
+                setCartProductsQuantity(cartProductResponse.products.length);
               }
             } else {
               throw new Error('Unable to change product quantity');

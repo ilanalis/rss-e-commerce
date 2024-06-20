@@ -55,8 +55,19 @@ const Cart: FC = () => {
         setIsCartEmpty(true);
         setIsModalOpen(false);
         setCartProductsQuantity(0);
+        document.body.classList.remove('lock');
       }
     }
+  }
+
+  function openModal() {
+    setIsModalOpen(true);
+    document.body.classList.add('lock');
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
+    document.body.classList.remove('lock');
   }
 
   async function enterCode() {
@@ -149,7 +160,7 @@ const Cart: FC = () => {
                 </span>
               </div>
             </div>
-            <button onClick={() => setIsModalOpen(true)} className={styles.clearCartBtn}>
+            <button onClick={openModal} className={styles.clearCartBtn}>
               Clear shopping cart
             </button>
           </div>
@@ -162,10 +173,7 @@ const Cart: FC = () => {
               Are you sure you want to clear the shopping cart?
             </span>
             <div className={styles.buttonsBlock}>
-              <button
-                className={cn(styles.modalButton, styles.cancelButton)}
-                onClick={() => setIsModalOpen(false)}
-              >
+              <button className={cn(styles.modalButton, styles.cancelButton)} onClick={closeModal}>
                 Cancel
               </button>
               <button onClick={clearShoppingCart} className={styles.modalButton}>
