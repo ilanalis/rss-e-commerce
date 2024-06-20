@@ -2,10 +2,25 @@ import { Link } from 'react-router-dom';
 import styles from './main.module.css';
 import cn from 'classnames';
 import { Routes } from '@/utils/const';
+import { discountCodes } from './config';
 
 function Main() {
   return (
     <div className={cn('container', styles.main)}>
+      <div className={styles.discountCodesBlock}>
+        {discountCodes.map((discount) => (
+          <div key={discount.code} className={styles.discountBorderWrapper}>
+            <div className={styles.discount}>
+              <p>Get this discount!</p>
+              <p>
+                Enter the code <span className={styles.discountCode}>{discount.code} </span>in your
+                cart and get <span className={styles.discountSize}>{discount.discount}</span> off
+                your order!
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
       <ul>
         <li className={styles.navItem}>
           <Link className={styles.link} to={Routes.CATALOG}>

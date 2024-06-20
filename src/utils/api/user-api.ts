@@ -15,6 +15,7 @@ export interface Response {
   products?: LineItem[];
   cartId?: string;
   cart?: Cart;
+  discountName?: string;
 }
 
 export function updatePersonalInfo(
