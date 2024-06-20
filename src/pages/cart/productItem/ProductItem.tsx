@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import trashIcon from '../../../assets/trash.png';
 import { changeProductQuantity } from '@/utils/api/cart-api';
 import { useApiRootContext } from '@/contexts/useApiRootContext';
-import { fetchProductsList } from '../config';
+import { fetchProductsList, getPrice } from '../config';
 import { useCartContext } from '@/contexts/useCartContext';
 
 interface ProductItemProps {
@@ -25,18 +25,6 @@ const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setI
     if (response?.success) {
       fetchProductsList({ apiRoot, setCart, setProducts, setIsCartEmpty, setCartProductsQuantity });
     }
-  }
-
-  function getPrice() {
-    const price =
-      ((product.variant.prices && product.variant.prices[0].value.centAmount) || 0) / 100;
-    const finalPrice =
-      ((product.variant.prices && product.variant.prices[0].discounted?.value.centAmount) || 0) /
-      100;
-    if (finalPrice) {
-      return finalPrice;
-    }
-    return price;
   }
 
   async function changeQuantity(modifier: string) {
@@ -90,7 +78,7 @@ const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setI
       <div className={styles.productInfo}>
         <div className={styles.mainInfo}>
           <p className={styles.productName}>{product.name['en-GB']}</p>
-          <span className={styles.productPrice}>{getPrice().toFixed(2)}$</span>
+          <span className={styles.productPrice}>{getPrice(product).toFixed(2)}$</span>
         </div>
         <div className={styles.totalCostWrapper}>
           <div className={styles.totalCostBlock}>
@@ -116,7 +104,7 @@ const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setI
             </div>
             <div className={styles.totalCost}>
               <span>total cost:</span>
-              <span>{(product.quantity * getPrice()).toFixed(2)}$</span>
+              <span>{(product.quantity * getPrice(product)).toFixed(2)}$</span>
             </div>
           </div>
 
