@@ -54,10 +54,10 @@ export function createCart(apiRoot: ByProjectKeyRequestBuilder): Promise<Respons
     });
 }
 
-export function getCartProducts(apiRoot: ByProjectKeyRequestBuilder): Promise<Response> | Response {
+export function getCartProducts(apiRoot: ByProjectKeyRequestBuilder): Promise<Response> {
   const cartId = getCartId();
 
-  if (!cartId) return { success: true, products: [] };
+  if (!cartId) return Promise.resolve({ success: true, products: [] });
 
   return apiRoot
     .carts()
