@@ -1,5 +1,6 @@
 import styles from './style.module.css';
 import cn from 'classnames';
+import RSSLogo from '@assets/rss-logo.png';
 
 import { FC } from 'react';
 
@@ -22,16 +23,28 @@ const AboutUs: FC = () => {
         })}
       </div>
       <ul className={styles.collaborationContainer}>
-        <h2 className={styles.collaborationHeading}>Collaboration:</h2>
+        <h2 className={styles.heading2}>Collaboration:</h2>
         {collaborationList.map((collaboration, ind) => {
           return (
             <li className={styles.collaborationItem} key={ind}>
               <h3 className={styles.collaborationTitle}>&#x1F680;{collaboration.title}</h3>
-              <p className={styles.collaborationDescription}>{collaboration.description}</p>
+              <p className={styles.description}>{collaboration.description}</p>
             </li>
           );
         })}
       </ul>
+      <h2 className={styles.heading2}>The Rolling Scopes School</h2>
+      <a
+        className={styles.rssLink}
+        href="https://rs.school/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img className={styles.rssLogo} src={RSSLogo} alt="" />
+      </a>
+      <p className={styles.description}>
+        The project was implemented during the studying at the Rolling Scopes Frontend Course
+      </p>
     </section>
   );
 };

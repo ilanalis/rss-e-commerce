@@ -31,6 +31,23 @@
   margin-bottom: 10px;
 }
 
+.rssLogo {
+  width: 100%;
+}
+
+.rssLink {
+  background-color: #ffda1f;
+  width: fit-content;
+  display: block;
+  border-radius: 16px;
+  margin: 0 auto;
+  transition: all 0.4s;
+}
+
+.rssLink:hover {
+  box-shadow: 0 0 18px 0 rgb(255 0 0 / 79%);
+}
+
 @media (width <= 1050px) {
   .membersContainer {
     margin: 0 auto;
@@ -65,11 +82,11 @@
     font-size: 0.9rem;
   }
 
-  .collaborationDescription {
+  .description {
     font-size: 0.8rem;
   }
 
-  .collaborationHeading {
+  .heading2 {
     font-size: 1.1rem;
   }
 }
