@@ -1,0 +1,4 @@
+/* stylelint-disable selector-class-pattern */
+.Toastify__toast-container--bottom-right {
+  right: calc((100vw - var(--desktop-content-width)) / 2);
+}

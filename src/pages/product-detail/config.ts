@@ -1,4 +1,4 @@
-import { getCartProducts } from '@/utils/api/cart-api';
+import { changeProductQuantity, getCartProducts } from '@/utils/api/cart-api';
 import { isNumber, isObject, isString } from '@/utils/type-guards';
 import {
   Asset,
@@ -165,10 +165,36 @@ export const BUTTON_IDS = {
 
 type ButtonIdType = keyof typeof BUTTON_IDS;
 
-export const PRODUCT_QUANTITIES: Record<ButtonIdType, number> = {
+const PRODUCT_QUANTITIES: Record<ButtonIdType, number> = {
   add: 1,
   remove: 0,
 };
 
-export const isButtonId = (buttonID: string): buttonID is ButtonIdType =>
+const isButtonId = (buttonID: string): buttonID is ButtonIdType =>
   Object.values(BUTTON_IDS).some((existedButtonId) => buttonID === existedButtonId);
+
+interface ChangeProductQuantityResponse {
+  success: boolean;
+}
+
+export const tryChangeProductQuantity = (
+  apiRoot: ByProjectKeyRequestBuilder | null,
+  productId: string,
+  buttonId: string,
+): Promise<ChangeProductQuantityResponse | undefined> => {
+  if (!isButtonId(buttonId) || !apiRoot) {
+    return Promise.resolve({ success: false });
+  }
+
+  const productQuantity = PRODUCT_QUANTITIES[buttonId];
+
+  return changeProductQuantity(apiRoot, productId, productQuantity)
+    .then((response) => {
+      if (response && response.success) {
+        return { success: true };
+      }
+    })
+    .catch(() => {
+      return { success: false };
+    });
+};

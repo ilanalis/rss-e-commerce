@@ -1,13 +1,16 @@
 import styles from './style.module.css';
+import 'react-toastify/dist/ReactToastify.css';
+import './toaster.css';
 import cn from 'classnames';
 
 import { useApiRootContext } from '@/contexts/useApiRootContext';
 import React, { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { BUTTON_IDS, PRODUCT_QUANTITIES, ProductData, fetchData, isButtonId } from './config';
+import { BUTTON_IDS, ProductData, fetchData, tryChangeProductQuantity } from './config';
 import { Gallery, Item } from 'react-photoswipe-gallery';
 import 'photoswipe/dist/photoswipe.css';
-import { changeProductQuantity } from '@/utils/api/cart-api';
+import { ToastContainer } from 'react-toastify';
+import notify from '@/utils/notify';
 
 const ProductDetail: FC = () => {
   const [product, setProduct] = useState<ProductData | null>(null);
@@ -53,21 +56,29 @@ const ProductDetail: FC = () => {
 
   const handleCartButtonClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (e.target instanceof HTMLButtonElement) {
-      e.target.disabled = true;
-      const buttonID = e.target.id;
+      const button = e.target;
+      const buttonID = button.id;
 
-      if (isButtonId(buttonID) && apiRoot && product) {
-        const productQuantity = PRODUCT_QUANTITIES[buttonID];
-
-        changeProductQuantity(apiRoot, product.id, productQuantity).then((response) => {
-          if (response && response.success) {
-            if (buttonID === BUTTON_IDS.add) {
-              setIsProductInCart(true);
-            } else if (buttonID === BUTTON_IDS.remove) {
-              setIsProductInCart(false);
+      if (product) {
+        button.disabled = true;
+        tryChangeProductQuantity(apiRoot, product.id, buttonID)
+          .then((response) => {
+            if (response && response.success) {
+              if (buttonID === BUTTON_IDS.add) {
+                setIsProductInCart(true);
+                notify('The product was added to the cart!');
+              } else if (buttonID === BUTTON_IDS.remove) {
+                notify('The product was removed from the cart!');
+                setIsProductInCart(false);
+              }
+            } else {
+              throw new Error('Unable to change product quantity');
             }
-          }
-        });
+          })
+          .catch(() => {
+            button.disabled = false;
+            notify('Sorry, something went wrong. Please, try later.');
+          });
       }
     }
   };
@@ -75,7 +86,7 @@ const ProductDetail: FC = () => {
   return (
     <div className={cn('container', styles.productContainer)}>
       {!product && !error && <h2>Loading the product...</h2>}
-      {error && <h2>Sorry, the product with your id is not found.</h2>}
+      {error && <h2>Sorry, the product is not found. Please, try later.</h2>}
       {product && (
         <>
           <div className={styles.galleryContainer}>
@@ -160,6 +171,8 @@ const ProductDetail: FC = () => {
                 Remove from Cart
               </button>
             </div>
+
+            <ToastContainer position="bottom-right" />
           </div>
         </>
       )}
