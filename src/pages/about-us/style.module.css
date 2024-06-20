@@ -1,0 +1,75 @@
+.aboutUsContainer {
+  padding: 10px;
+  text-align: center;
+}
+
+.membersContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4%;
+}
+
+.introContainer {
+  padding: 20px;
+}
+
+.motto {
+  font-family: cursive;
+}
+
+.collaborationContainer {
+  text-align: left;
+}
+
+.collaborationItem {
+  font-size: 1.1rem;
+  white-space: pre-line;
+  line-height: 180%;
+}
+
+.collaborationItem:not(:last-of-type) {
+  margin-bottom: 10px;
+}
+
+@media (width <= 1050px) {
+  .membersContainer {
+    margin: 0 auto;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 400px;
+  }
+
+  .collaborationContainer {
+    margin-top: 20%;
+  }
+}
+
+@media (width <= 450px) {
+  .membersContainer {
+    width: 100%;
+  }
+
+  .text {
+    height: 378px;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .motto {
+    font-size: 0.9rem;
+  }
+
+  .collaborationTitle {
+    font-size: 0.9rem;
+  }
+
+  .collaborationDescription {
+    font-size: 0.8rem;
+  }
+
+  .collaborationHeading {
+    font-size: 1.1rem;
+  }
+}

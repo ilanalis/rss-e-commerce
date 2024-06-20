@@ -1,0 +1,77 @@
+.cardContainer {
+  padding-bottom: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  border: 1px solid;
+  border-radius: 29px;
+  color: #004eaf;
+  background-color: #dcd5ff59;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+
+.cardContainer:hover {
+  box-shadow: 0 0 10px 0 rgb(140 0 255 / 79.2%);
+  transform: scale(1.02);
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.iconLink__image {
+  width: 25px;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.iconLink__image:hover {
+  box-shadow: 0 0 10px 0 rgb(140 0 255 / 79.2%);
+}
+
+.avatar {
+  width: 100%;
+}
+
+.title,
+.role {
+  margin: 0;
+}
+
+.role {
+  color: #a52a2a;
+}
+
+.text {
+  padding: 0 4px;
+  height: 230px;
+}
+
+.contributionContainer {
+  padding: 5px;
+  text-align: left;
+}
+
+.contributionTitle {
+  letter-spacing: 0.05rem;
+}
+
+@media (width <= 1050px) {
+  .text {
+    height: auto;
+  }
+
+  .cardContainer {
+    height: fit-content;
+  }
+}
+
+@media (width <= 400px) {
+  .title {
+    font-size: 1.2rem;
+  }
+}
