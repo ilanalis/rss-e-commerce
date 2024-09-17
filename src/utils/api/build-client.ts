@@ -7,7 +7,8 @@ import {
   TokenStore,
   type HttpMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
-import { localStorageTokenKey } from '../const';
+import { localStorageAnonymousId, localStorageCartsId, localStorageTokenKey } from '../const';
+import { generateUUID } from '../generateUUID';
 
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
   host: import.meta.env.VITE_API_URL,
@@ -60,6 +61,10 @@ type AuthOptionsConfig = {
   refreshToken?: string;
 };
 
+function saveAnonymousId(id: string) {
+  localStorage.setItem(localStorageAnonymousId, id);
+}
+
 function createAuthOptions(config: AuthOptionsConfig = {}): AuthMiddlewareOptions {
   const options: AuthMiddlewareOptions = {
     host: getEnvVar('VITE_AUTH_URL'),
@@ -78,6 +83,10 @@ function createAuthOptions(config: AuthOptionsConfig = {}): AuthMiddlewareOption
       password: config.password,
       activeCartSignInMode: 'MergeWithExistingCustomerCart',
     };
+  } else {
+    const anonymousId = generateUUID();
+    saveAnonymousId(anonymousId);
+    options.credentials.anonymousId = anonymousId;
   }
 
   if (config.refreshToken) {
@@ -93,10 +102,10 @@ function createSession(options: AuthMiddlewareOptions): Client {
     .withHttpMiddleware(httpMiddlewareOptions);
   if (options.credentials.user) {
     return clientBuilder.withPasswordFlow(options as PasswordAuthMiddlewareOptions).build();
-  }
-
-  if (options.refreshToken) {
+  } else if (options.refreshToken) {
     return clientBuilder.withRefreshTokenFlow(options as RefreshAuthMiddlewareOptions).build();
+  } else {
+    localStorage.removeItem(localStorageCartsId);
   }
 
   return clientBuilder.withAnonymousSessionFlow(options).build();

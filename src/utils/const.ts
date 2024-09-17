@@ -15,6 +15,8 @@ export const Routes = {
 };
 
 export const localStorageTokenKey = 'userTokenDDS';
+export const localStorageAnonymousId = 'anonymousIdDDS';
+export const localStorageCartsId = 'cartsIdDDS';
 
 export const CategoryId: {
   PROGRAMMING: 'c96ff3d0-1688-4913-90ae-a3056e259e68';
