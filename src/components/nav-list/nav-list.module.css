@@ -28,6 +28,22 @@
   gap: 0.5rem;
 }
 
+.productsQuantity {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  width: 19px;
+  height: 19px;
+  display: flex;
+  padding: 3px;
+  border-radius: 100%;
+  font-size: 0.8rem;
+  font-weight: 600;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7941d;
+}
+
 .siteNav__link {
   display: flex;
   align-items: baseline;
@@ -110,5 +126,10 @@
 
   .userNav__link {
     flex-direction: row;
+  }
+
+  .productsQuantity {
+    right: auto;
+    left: 15px;
   }
 }

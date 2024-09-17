@@ -45,7 +45,6 @@ const PersonalDataForm: FC<PersonalDataFormProps> = ({
   useEffect(() => {
     const newValues = { email, firstName, lastName, dateOfBirth };
     changeValues(newValues);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function updateUserData(e: React.FormEvent<HTMLFormElement>) {
