@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from './style.module.css';
 import cn from 'classnames';
-import AddProduct from '@components/add-product';
+import AddProduct from './add-product';
 
 type ProductCardMinProps = {
   id: string;

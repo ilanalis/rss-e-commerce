@@ -12,8 +12,8 @@ import AuthorizationLayout from '@pages/authorization';
 import ProtectedRoute from './components/protectedRoute';
 import PublicRoute from './components/publicRoute';
 import { CategoryId, Routes } from './utils/const';
-import ProductList from './components/product-list';
 import ProductDetail from './pages/product-detail';
+import ProductList from './pages/courses/catalog-card/product-list';
 
 export const router = createBrowserRouter([
   {
