@@ -1,0 +1,92 @@
+.aboutUsContainer {
+  padding: 10px;
+  text-align: center;
+}
+
+.membersContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4%;
+}
+
+.introContainer {
+  padding: 20px;
+}
+
+.motto {
+  font-family: cursive;
+}
+
+.collaborationContainer {
+  text-align: left;
+}
+
+.collaborationItem {
+  font-size: 1.1rem;
+  white-space: pre-line;
+  line-height: 180%;
+}
+
+.collaborationItem:not(:last-of-type) {
+  margin-bottom: 10px;
+}
+
+.rssLogo {
+  width: 100%;
+}
+
+.rssLink {
+  background-color: #ffda1f;
+  width: fit-content;
+  display: block;
+  border-radius: 16px;
+  margin: 0 auto;
+  transition: all 0.4s;
+}
+
+.rssLink:hover {
+  box-shadow: 0 0 18px 0 rgb(255 0 0 / 79%);
+}
+
+@media (width <= 1050px) {
+  .membersContainer {
+    margin: 0 auto;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 400px;
+  }
+
+  .collaborationContainer {
+    margin-top: 20%;
+  }
+}
+
+@media (width <= 450px) {
+  .membersContainer {
+    width: 100%;
+  }
+
+  .text {
+    height: 378px;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .motto {
+    font-size: 0.9rem;
+  }
+
+  .collaborationTitle {
+    font-size: 0.9rem;
+  }
+
+  .description {
+    font-size: 0.8rem;
+  }
+
+  .heading2 {
+    font-size: 1.1rem;
+  }
+}
