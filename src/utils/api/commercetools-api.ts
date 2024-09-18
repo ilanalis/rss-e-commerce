@@ -11,6 +11,7 @@ import {
   createApiBuilderFromCtpClient,
   MyCustomerDraft,
 } from '@commercetools/platform-sdk';
+
 import { localStorageCartsId, localStorageTokenKey } from '../const';
 
 function createApiRoot(session: Client): ByProjectKeyRequestBuilder {
@@ -46,6 +47,8 @@ export function login(
   email: string,
   password: string,
 ): Promise<AuthenticationResult> {
+  localStorage.removeItem(localStorageAnonymousId);
+
   return apiRoot
     .me()
     .login()
