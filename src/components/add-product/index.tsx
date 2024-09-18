@@ -1,8 +1,9 @@
 import { MouseEventHandler, useState } from 'react';
 import styles from './style.module.css';
 import cn from 'classnames';
-import { changeProductQuantity } from '@/utils/api/cart-api';
+import { changeProductQuantity, getCartProducts } from '@/utils/api/cart-api';
 import { useApiRootContext } from '@/contexts/useApiRootContext';
+import { useCartContext } from '@/contexts/useCartContext';
 
 type AddProductProps = {
   id: string;
@@ -13,6 +14,7 @@ function AddProduct({ id, selected }: AddProductProps) {
   const [active, setActive] = useState(true);
   const [loading, setLoading] = useState(false);
   const { apiRoot } = useApiRootContext();
+  const { setCartProductsQuantity } = useCartContext();
 
   const clickHandler: MouseEventHandler = async (evt) => {
     const button = evt.target as HTMLButtonElement;
@@ -25,6 +27,11 @@ function AddProduct({ id, selected }: AddProductProps) {
       setActive(true);
       button.disabled = false;
       return;
+    }
+    const cartProductResponse = await getCartProducts(apiRoot);
+
+    if (cartProductResponse && cartProductResponse.success && cartProductResponse.products) {
+      setCartProductsQuantity(cartProductResponse.products.length);
     }
 
     setLoading(false);
