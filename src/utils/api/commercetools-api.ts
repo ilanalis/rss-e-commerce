@@ -12,7 +12,7 @@ import {
   MyCustomerDraft,
 } from '@commercetools/platform-sdk';
 
-import { localStorageCartsId, localStorageTokenKey } from '../const';
+import { localStorageAnonymousId, localStorageCartsId, localStorageTokenKey } from '../const';
 
 function createApiRoot(session: Client): ByProjectKeyRequestBuilder {
   const apiRoot = createApiBuilderFromCtpClient(session).withProjectKey({
