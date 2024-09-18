@@ -1,0 +1,39 @@
+.pagesBlock {
+  display: flex;
+  flex-grow: 1;
+  align-items: end;
+  margin: 0 auto;
+}
+
+.pagesOfUsers {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pageNumber,
+.pageCurrentNumber,
+.prevButton,
+.nextButton {
+  padding: 0.4rem;
+  font-size: 1rem;
+  background-color: transparent;
+  border: 1px solid var(--dark-bg);
+  border-radius: 5px;
+}
+
+.pageCurrentNumber {
+  font-weight: bold;
+  border: 2px solid var(--dark-bg);
+}
+
+.pageNumber {
+  color: var(--dark-bg);
+}
+
+.prevButton {
+  margin-right: 0.5rem;
+}
+
+.nextButton {
+  margin-left: 0.5rem;
+}

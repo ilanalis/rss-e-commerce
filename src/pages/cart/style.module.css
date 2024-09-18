@@ -65,8 +65,7 @@ span {
   position: relative;
   height: 200px;
   min-width: 300px;
-}
-
+  
 .productImg,
 .icon {
   position: absolute;
@@ -173,7 +172,6 @@ span {
   gap: 10px;
   background-color: var(--light-gray-bg);
 }
-
 
 .form {
   width: 100%;
@@ -336,7 +334,8 @@ span {
   }
 }
 
-@media (width <= 840px) {
+
+
   .cartContainer {
     flex-direction: column;
   }
