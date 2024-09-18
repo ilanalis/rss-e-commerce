@@ -115,7 +115,6 @@ const ProductItem: FC<ProductItemProps> = ({ product, setCart, setProducts, setI
           >
             <img className={styles.icon} src={trashIcon} alt="" />
           </button>
-
         </div>
       </div>
     </div>

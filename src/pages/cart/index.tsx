@@ -82,7 +82,6 @@ const Cart: FC = () => {
     }
   }
 
-
   return (
     <div className={cn('container', styles.cartContainer)}>
       {isCartEmpty ? (
@@ -177,7 +176,6 @@ const Cart: FC = () => {
         </div>
       ) : null}
       <ToastContainer position="bottom-right" />
-
     </div>
   );
 };

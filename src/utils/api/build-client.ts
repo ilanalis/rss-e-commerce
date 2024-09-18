@@ -9,7 +9,6 @@ import {
 } from '@commercetools/sdk-client-v2';
 import { localStorageCartsId, localStorageTokenKey } from '../const';
 
-
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
   host: import.meta.env.VITE_API_URL,
   fetch,
@@ -60,10 +59,6 @@ type AuthOptionsConfig = {
   refreshToken?: string;
 };
 
-function saveAnonymousId(id: string) {
-  localStorage.setItem(localStorageAnonymousId, id);
-}
-
 function createAuthOptions(config: AuthOptionsConfig = {}): AuthMiddlewareOptions {
   const options: AuthMiddlewareOptions = {
     host: getEnvVar('VITE_AUTH_URL'),
@@ -82,10 +77,6 @@ function createAuthOptions(config: AuthOptionsConfig = {}): AuthMiddlewareOption
       password: config.password,
       activeCartSignInMode: 'MergeWithExistingCustomerCart',
     };
-  } else {
-    const anonymousId = generateUUID();
-    saveAnonymousId(anonymousId);
-    options.credentials.anonymousId = anonymousId;
   }
 
   if (config.refreshToken) {

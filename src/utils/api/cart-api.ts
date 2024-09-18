@@ -1,4 +1,3 @@
-
 import {
   ByProjectKeyRequestBuilder,
   LineItem,
@@ -14,7 +13,6 @@ function saveCartId(id: string) {
 function getCartId() {
   return localStorage.getItem(localStorageCartsId);
 }
-
 
 export function getCartVersion(
   apiRoot: ByProjectKeyRequestBuilder,
@@ -57,7 +55,6 @@ export function createCart(apiRoot: ByProjectKeyRequestBuilder): Promise<Respons
       return { success: false };
     });
 }
-
 
 export function getCartProducts(apiRoot: ByProjectKeyRequestBuilder): Promise<Response> {
   const cartId = getCartId();
@@ -143,7 +140,7 @@ export async function changeProductQuantity(
 
   if (!lineItemId) {
     const response = await addProductToLineItems(apiRoot, productId);
-    
+
     return response;
   }
 

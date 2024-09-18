@@ -19,20 +19,20 @@ export const localStorageAnonymousId = 'anonymousIdDDS';
 export const localStorageCartsId = 'cartsIdDDS';
 
 export const CategoryId: {
-  PROGRAMMING: 'c96ff3d0-1688-4913-90ae-a3056e259e68';
-  BUSINESS: '78db1a69-6023-44b5-8b3d-a8f294cdd335';
-  DESIGN: 'dac8edad-bf16-4f56-859c-f364efde1c2a';
-  MARKETING: '9f44fc3d-b2b9-4625-91e8-03934154b07d';
+  PROGRAMMING: 'a217802e-37e8-4e30-aeb4-69e1197a12b5';
+  BUSINESS: '5e12f1b9-406c-4719-8cc9-af131511e2d9';
+  DESIGN: '2bcab347-1ebf-45d9-b643-6cfaf2b33508';
+  MARKETING: '634d7e9e-b05d-4b9f-9ead-5bf8f6c711d7';
 } = {
-  PROGRAMMING: 'c96ff3d0-1688-4913-90ae-a3056e259e68',
-  BUSINESS: '78db1a69-6023-44b5-8b3d-a8f294cdd335',
-  DESIGN: 'dac8edad-bf16-4f56-859c-f364efde1c2a',
-  MARKETING: '9f44fc3d-b2b9-4625-91e8-03934154b07d',
+  PROGRAMMING: 'a217802e-37e8-4e30-aeb4-69e1197a12b5',
+  BUSINESS: '5e12f1b9-406c-4719-8cc9-af131511e2d9',
+  DESIGN: '2bcab347-1ebf-45d9-b643-6cfaf2b33508',
+  MARKETING: '634d7e9e-b05d-4b9f-9ead-5bf8f6c711d7',
 };
 
 export const CategoryMap = {
-  'c96ff3d0-1688-4913-90ae-a3056e259e68': 'Programming',
-  '78db1a69-6023-44b5-8b3d-a8f294cdd335': 'Business',
-  'dac8edad-bf16-4f56-859c-f364efde1c2a': 'Design',
-  '9f44fc3d-b2b9-4625-91e8-03934154b07d': 'Marketing',
+  'a217802e-37e8-4e30-aeb4-69e1197a12b5': 'Programming',
+  '5e12f1b9-406c-4719-8cc9-af131511e2d9': 'Business',
+  '2bcab347-1ebf-45d9-b643-6cfaf2b33508': 'Design',
+  '634d7e9e-b05d-4b9f-9ead-5bf8f6c711d7': 'Marketing',
 };

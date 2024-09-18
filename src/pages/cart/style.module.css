@@ -48,7 +48,6 @@ span {
   display: flex;
   gap: 10px;
   margin-bottom: 30px;
-
 }
 
 .productItem::after {
@@ -61,13 +60,13 @@ span {
   background-color: rgb(115 115 141 / 30%);
 }
 
-
 .imgWrapper,
 .iconWrapper {
   position: relative;
   height: 200px;
   min-width: 300px;
-  
+}
+
 .productImg,
 .icon {
   position: absolute;
@@ -83,7 +82,6 @@ span {
   display: flex;
   flex-direction: column;
   width: 100%;
-
 }
 
 .mainInfo {
@@ -120,7 +118,6 @@ span {
 
 .totalCostWrapper {
   display: flex;
-
 }
 
 .totalCostBlock {
@@ -338,14 +335,7 @@ span {
   }
 }
 
-
-  .cartContainer {
-    flex-direction: column;
-  }
-}
-
 @media (width <= 656px) {
-
   .productItem {
     align-items: center;
     flex-direction: column;
@@ -382,5 +372,4 @@ span {
   .codeInput {
     width: 100px;
   }
-
 }
