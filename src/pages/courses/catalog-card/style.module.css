@@ -8,14 +8,23 @@
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
-  border: 1px solid var(--dark-text);
   border-radius: 10px;
   transition: all 0.5s;
+  align-items: center;
+  background-color: #00093c16;
+  box-shadow: 4px 4px 8px 0 rgb(34 60 80 / 20%);
 }
 
 .img {
-  margin-bottom: 1rem;
-  width: 100%;
+  margin-bottom: 0.6rem;
+  width: 70%;
+  height: 80%;
+}
+
+@media (width <= 900px) {
+  .img {
+    width: 80%;
+  }
 }
 
 @media (width <= 330px) {
@@ -27,6 +36,7 @@
 @media (pointer: fine) {
   .card:hover {
     scale: 1.05;
-    box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
+    background-color: #00093c2a;
+    box-shadow: 12px 12px 8px 0 rgb(0 38 66 / 20%);
   }
 }
