@@ -16,7 +16,7 @@ function Breadcrumbs({ categoryId }: BreadcrumbsProps) {
       <Link className={styles.link} to={'/catalog'}>
         Catalog
       </Link>
-      /<span>{CategoryMap[categoryId]}</span>
+      <span>/ {CategoryMap[categoryId]}</span>
     </div>
   );
 }
