@@ -1,5 +1,7 @@
 .container {
-  height: 70px;
+  position: relative;
+  height: 46px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;

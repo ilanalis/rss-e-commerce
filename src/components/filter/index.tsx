@@ -65,16 +65,16 @@ function Filter({ setFilter }: FilterProps) {
         <div className={styles.level}>
           <span className={styles.title}>Level:</span>
           <label htmlFor="easy">
-            Easy
             <input type="radio" id="easy" value="easy" name="level" />
+            Easy
           </label>
           <label htmlFor="medium">
-            Medium
             <input type="radio" id="medium" value="medium" name="level" />
+            Medium
           </label>
           <label htmlFor="hard">
-            Hard
             <input type="radio" id="hard" value="hard" name="level" />
+            Hard
           </label>
         </div>
         <div className={styles.duration}>
