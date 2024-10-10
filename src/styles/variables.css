@@ -16,6 +16,7 @@
   /* Content sizes: */
   --accent-color: #f7941d;
   --hover-accent-color: #ffae4d;
+  --active-accent-color: rgb(187 105 4);
   --desktop-content-width: 1146px;
   --mobile-size: 576px;
 }
