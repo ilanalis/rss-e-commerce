@@ -25,8 +25,8 @@ function ProductCardMin({
   selected,
 }: ProductCardMinProps) {
   return (
-    <div className={styles.productCard}>
-      <Link to={`./${id}`}>
+    <div className={styles.productCardWrapper}>
+      <Link to={`./${id}`} className={styles.productCard}>
         {!!finalPrice && <span className={styles.discount}>%</span>}
         <div className={styles.imgWrapper}>
           <img className={styles.img} src={imgSrc} alt="" />

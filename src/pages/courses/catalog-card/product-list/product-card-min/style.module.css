@@ -1,9 +1,16 @@
-.productCard {
+.productCardWrapper {
   position: relative;
   display: flex;
   flex-direction: column;
-  box-shadow: rgb(0 0 0 / 24%) 0 3px 8px;
+  box-shadow: rgb(20 12 138 / 58.4%) 0 3px 8px;
   transition: all 0.5s;
+  border-radius: 1rem;
+}
+
+.productCard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .productCard img {
@@ -13,9 +20,9 @@
 .content {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 1rem;
+  flex: 1 0 auto;
 }
 
 .title {
@@ -69,7 +76,7 @@
 }
 
 @media (pointer: fine) {
-  .productCard:hover {
+  .productCardWrapper:hover {
     scale: 1.05;
   }
 }

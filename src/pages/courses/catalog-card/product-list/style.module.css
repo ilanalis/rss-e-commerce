@@ -21,7 +21,7 @@
 
 .productList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 270px));
+  grid-template-columns: repeat(auto-fill, minmax(278px, 1fr));
   justify-content: center;
   gap: 2rem;
   width: 100%;
