@@ -10,6 +10,7 @@ export const siteNavItems = [
   {
     title: 'About',
     route: Routes.ABOUT,
+    icon: styles.aboutIcon,
   },
 ];
 

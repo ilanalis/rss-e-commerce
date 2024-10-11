@@ -36,6 +36,12 @@
   height: 17px;
 }
 
+.aboutIcon {
+  mask-image: url('../../assets/about.svg');
+  width: 20px;
+  height: 20px;
+}
+
 .basketIcon {
   mask-image: url('../../assets/basket.svg');
   width: 23px;

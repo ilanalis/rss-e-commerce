@@ -46,6 +46,7 @@
 
 .siteNav__link {
   display: flex;
+  flex-direction: column;
   align-items: baseline;
   gap: 0.5rem;
 }
