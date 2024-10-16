@@ -92,3 +92,7 @@ npm run format
 ```
 npm run format:refactor
 ```
+
+#### Live demo
+
+https://skill-spot.netlify.app/
