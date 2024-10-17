@@ -9,14 +9,14 @@ export interface MemberCardProps {
   link: string;
   role: string;
   imgSrc: string;
-  bio: string;
   contributionList: string[];
 }
 
-const MemberCard: FC<MemberCardProps> = ({ title, link, role, imgSrc, bio, contributionList }) => {
+const MemberCard: FC<MemberCardProps> = ({ title, link, role, imgSrc, contributionList }) => {
   return (
     <article className={styles.cardContainer}>
       <div className={styles.avatarContainer}>
+        <div className={styles.avatarOverlay}></div>
         <img className={styles.avatar} src={imgSrc} alt="" />
       </div>
       <header className={styles.headerContainer}>
@@ -26,13 +26,12 @@ const MemberCard: FC<MemberCardProps> = ({ title, link, role, imgSrc, bio, contr
         </a>
       </header>
       <h3 className={styles.role}>{role}</h3>
-      <p className={styles.text}>{bio}</p>
-      <ol className={styles.contributionContainer}>
-        <span className={styles.contributionTitle}>Contribution:</span>
+      <span className={styles.contributionTitle}>Contributions:</span>
+      <ul className={styles.contributionContainer}>
         {contributionList.map((contribution, ind) => {
-          return <li key={ind}>&#x1F31F; {contribution}</li>;
+          return <li key={ind}>{contribution}</li>;
         })}
-      </ol>
+      </ul>
     </article>
   );
 };

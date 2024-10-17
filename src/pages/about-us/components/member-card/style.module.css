@@ -1,18 +1,18 @@
 .cardContainer {
-  padding-bottom: 0.8rem;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  border: 1px solid;
   border-radius: 29px;
-  color: #004eaf;
-  background-color: #dcd5ff59;
+  color: #2c2d2e;
+  background-color: #0418882a;
   overflow: hidden;
-  transition: all 0.5s;
+  transition: all 0.3s;
+  line-height: 150%;
+  letter-spacing: 0.009rem;
 }
 
 .cardContainer:hover {
-  box-shadow: 0 0 10px 0 rgb(140 0 255 / 79.2%);
   transform: scale(1.02);
 }
 
@@ -33,8 +33,26 @@
   box-shadow: 0 0 10px 0 rgb(140 0 255 / 79.2%);
 }
 
-.avatar {
+.avatarContainer {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.avatarOverlay {
+  position: absolute;
   width: 100%;
+  height: 100%;
+  background-color: #22212129;
+  z-index: 99;
+  border-radius: 100%;
+}
+
+.avatar {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  z-index: 1;
 }
 
 .title,
@@ -43,7 +61,7 @@
 }
 
 .role {
-  color: #a52a2a;
+  color: #6b1717;
 }
 
 .text {
@@ -54,6 +72,8 @@
 .contributionContainer {
   padding: 5px;
   text-align: left;
+  list-style-type: disc;
+  padding-left: 30px;
 }
 
 .contributionTitle {
