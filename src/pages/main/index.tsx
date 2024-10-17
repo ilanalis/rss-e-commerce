@@ -38,11 +38,11 @@ function Main() {
             <img src={descrImg1} alt="" />
           </div>
         </div>
-        <div className={styles.descriptionBlock}>
+        <div className={cn(styles.descriptionBlock, styles.descriptionBlock2)}>
           <div className={cn(styles.imgWrapper, styles.imgWrapper2)}>
             <img src={descrImg2} alt="" />
           </div>
-          <p className={styles.text}>
+          <div className={styles.text}>
             <h2 className={styles.subtitle}>
               Why choose <b className={styles.highlightedTextBlue}>us</b>:
             </h2>
@@ -64,7 +64,7 @@ function Main() {
                 regularly add new courses to keep you up-to-date with the latest trends.
               </li>
             </ul>
-          </p>
+          </div>
         </div>
       </div>{' '}
     </div>

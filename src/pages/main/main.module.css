@@ -1,5 +1,5 @@
 .main {
-  padding: 8px 10px;
+  padding: 8px 10px 20px;
 }
 
 .discountCodesBlock {
@@ -29,12 +29,15 @@
 .header {
   text-align: center;
   font-size: 3rem;
+  margin: 0 0 1rem;
 }
 
 .text {
   font-size: 1.5rem;
   letter-spacing: 0.03rem;
   line-height: 140%;
+  margin: 0;
+  text-align: justify;
 }
 
 .subtitle {
@@ -53,11 +56,18 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  background-color: #808bcc2a;
+  border-radius: 2rem;
+  padding: 35px;
+}
+
+.descriptionBlock:not(:last-child) {
+  margin-bottom: 1.5rem;
 }
 
 .criteriaList {
   list-style-type: disc;
-  margin-left: 40px;
+  padding-left: 10px;
 }
 
 .imgWrapper {
@@ -72,7 +82,8 @@
 }
 
 .imgWrapper2 {
-  padding-bottom: 460px;
+  width: 300px;
+  padding-bottom: 360px;
 }
 
 .imgWrapper img {
@@ -81,9 +92,16 @@
   left: 0;
   width: 100%;
   height: 100%;
+  border-radius: 20px;
 }
 
 @media (width <= 950px) {
+  .descriptionBlock {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
   .imgWrapper {
     flex: 1 0 50%;
     padding-bottom: 280px;
@@ -101,11 +119,44 @@
 }
 
 @media (width <= 712px) {
+  .header {
+    font-size: 2rem;
+  }
+
   .discountCodesBlock {
     flex-direction: column;
   }
 
+  .imgWrapper {
+    width: 430px;
+  }
+
   .descriptionBlock {
     flex-direction: column;
+  }
+
+  .imgWrapper2 {
+    order: 1;
+  }
+
+  .criteriaList {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+}
+
+@media (width <= 510px) {
+  .imgWrapper,
+  .imgWrapper2 {
+    width: 360px;
+    padding-bottom: 280px;
+  }
+}
+
+@media (width <= 410px) {
+  .imgWrapper,
+  .imgWrapper2 {
+    width: 260px;
+    padding-bottom: 210px;
   }
 }
